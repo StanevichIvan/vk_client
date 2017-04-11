@@ -15,8 +15,8 @@ var conversationComponent = (function () {
             event.preventDefault();
             const message = event.target.message.value;
             const id = event.target.dataset.id;
-            sendMessage(id, message).then((res) => {
-                showUserMessages(id);
+            vkService.sendMessage(id, message).then((res) => {
+                this.showUserMessages(id);
             });
         });
 

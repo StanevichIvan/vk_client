@@ -39,8 +39,9 @@ var xhrService = (function () {
     }
 
     return {
-        getDialogs : getDialogs,
-        getUsersProfiles : getUsersProfiles,
-        getMessages : getMessages
+        getDialogs: getDialogs,
+        getUsersProfiles: getUsersProfiles,
+        getMessages: getMessages,
+        sendMessage: sendMessage
     };
 })();
