@@ -30,6 +30,12 @@ var conversationComponent = (function () {
             }, 2000);
         });
 
+        this.destroy = function () {
+            clearInterval(messageInterval);
+            document.getElementById('dialogs-container').innerHTML = '';
+            document.getElementById('messages-container').innerHTML = '';
+        }
+
     }
 
     /**

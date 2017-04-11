@@ -6,6 +6,8 @@ var router = (function () {
 
     function Router() {
 
+        this.prevComponent;
+
         if (window.location.pathname !== '/') {
             let path = window.location.pathname.replace('/', '');
         }
@@ -23,9 +25,10 @@ var router = (function () {
                 case 'messages':
                     let messages = new components.dialogs();
                     history.pushState({component: componentName}, componentName, componentName.toLowerCase());
+                    this.prevComponent = messages;
                     break;
                 case 'blank':
-                    document.getElementById('dialogs-container').innerHTML = '';
+                    this.prevComponent.destroy();
                     break;
             }
         };
