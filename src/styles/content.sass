@@ -1,0 +1,36 @@
+.content
+  display: flex
+  justify-content: flex-start
+  min-height: calc(100vh - 70px)
+  max-width: 100%
+  width: 100%
+  @media screen and (max-width: $tablet-width)
+    position: absolute
+  &__menu
+    width: 200px
+    background: #375e88
+    margin: 0
+    padding: 25px 20px
+    @media screen and (max-width: $tablet-width)
+      position: absolute
+      transform: translate(-100%, 0)
+      z-index: 100
+      transition: all 0.3s
+      opacity: 0
+      height: calc(100vh - 70px)
+    &.active
+      @media screen and (max-width: $tablet-width)
+        transform: translate(0, 0)
+        opacity: 1
+  &__right-column
+    width: 270px
+    max-height: calc(100vh - 75px)
+    overflow-y: auto
+    @media screen and (max-width: $tablet-width)
+      width: 30%
+  &__text-container
+    position: relative
+    width: calc(100% - 470px)
+    height: calc(100vh - 74px)
+    @media screen and (max-width: $tablet-width)
+      width: 70%

@@ -1,0 +1,49 @@
+.header
+  display: flex
+  justify-content: space-between
+  height: 70px
+  background: #4d76a3
+
+  &__left-side
+    display: flex
+    justify-content: space-between
+    align-self: center
+    align-items: center
+    margin-left: 20px
+    min-width: 475px
+    @media screen and (max-width: $tablet-width)
+      justify-content: flex-start
+      min-width: unset
+  &__controls
+    width: 52%
+    @media screen and (max-width: $tablet-width)
+      display: none
+  &__controls-list
+    list-style: none
+    display: flex
+    justify-content: space-between
+    padding: 0
+    @media screen and (max-width: $tablet-width)
+      display: none
+  &__action-buttons
+    display: flex
+    @media screen and (max-width: $tablet-width)
+      display: none
+  &__profile
+    display: flex
+    justify-content: space-between
+    align-items: center
+  &__right-side
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 320px
+    margin-right: 60px
+    @media screen and (max-width: $tablet-width)
+      margin-right: 0
+      width: auto
+.controls-list
+   &__item
+     a
+       color: #375e88
+       text-decoration: none
