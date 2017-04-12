@@ -1,4 +1,4 @@
-app.navbarComponent = (function () {
+(function () {
 
     function NavbarComponent(router) {
         const navbarNode = document.getElementById("nav-bar");
@@ -10,5 +10,5 @@ app.navbarComponent = (function () {
         });
     }
 
-    return NavbarComponent;
+    app.navbarComponent = NavbarComponent;
 })();

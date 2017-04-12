@@ -1,9 +1,10 @@
-app.friendsComponent = (function () {
+(function () {
 
     const vkService = window.app.xhrService;
 
     function FriendsComponent(mountNode) {
         this.render();
+        this.activeRequest = null;
         this.mountNode = 'messages-container';
         this.destroy = function() {
             document.getElementById(this.mountNode).innerHTML= '';
@@ -11,7 +12,7 @@ app.friendsComponent = (function () {
     }
 
     FriendsComponent.prototype.render = function () {
-        vkService.getFriends().then((res)=> {
+        this.activeRequest = vkService.getFriends().then((res)=> {
             showFriends(res);
         });
     };
@@ -65,6 +66,5 @@ app.friendsComponent = (function () {
         }
     }
 
-
-    return FriendsComponent;
+    app.friendsComponent =  FriendsComponent;
 })();

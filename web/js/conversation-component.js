@@ -10,9 +10,9 @@
         this.mountNode = mountNode;
         this.showDialogs();
 
-        this.activeRequest;
-
+        this.activeRequest = null;
         this.messageInterval = {};
+
         document.getElementById("chart-form").addEventListener('submit', (event) => {
             event.preventDefault();
             const message = event.target.message.value;
@@ -23,13 +23,13 @@
         });
 
         document.getElementById('dialogs-container').addEventListener('click', (event) => {
-            const uid = event.target.closest('.conversation__message').dataset.id;
-            this.showUserMessages(uid);
+            const id = event.target.closest('.conversation__message').dataset.id;
+            this.showUserMessages(id);
 
             clearInterval(this.messageInterval);
-            this.messageInterval = setInterval(() => {
-                this.showUserMessages(uid);
-            }, 2000);
+            this.messageInterval = setInterval(this.showUserMessages(id)
+            , 2000);
+
         });
 
         this.destroy = function () {
