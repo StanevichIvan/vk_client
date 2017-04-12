@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5091341c-7bcb-424e-988d-53aeac7e2964" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/conversation-component.js" afterPath="$PROJECT_DIR$/src/scripts/conversation-component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/friends-component.js" afterPath="$PROJECT_DIR$/src/scripts/friends-component.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/navbar.js" afterPath="$PROJECT_DIR$/src/scripts/navbar.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/xhrService.js" afterPath="$PROJECT_DIR$/src/scripts/xhrService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/conversation-component.js" afterPath="$PROJECT_DIR$/web/js/conversation-component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/conversation-component.min.js" afterPath="$PROJECT_DIR$/web/js/conversation-component.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/friends-component.js" afterPath="$PROJECT_DIR$/web/js/friends-component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/friends-component.min.js" afterPath="$PROJECT_DIR$/web/js/friends-component.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/navbar.js" afterPath="$PROJECT_DIR$/web/js/navbar.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/navbar.min.js" afterPath="$PROJECT_DIR$/web/js/navbar.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/xhrService.js" afterPath="$PROJECT_DIR$/web/js/xhrService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/xhrService.min.js" afterPath="$PROJECT_DIR$/web/js/xhrService.min.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -47,8 +35,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="41" lean-forward="false" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
+            <state relative-caret-position="144">
+              <caret line="8" column="27" lean-forward="false" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -74,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="navbar.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="navbar.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/scripts/navbar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="26" lean-forward="false" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+            <state relative-caret-position="126">
+              <caret line="7" column="76" lean-forward="false" selection-start-line="7" selection-start-column="76" selection-end-line="7" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -87,8 +75,8 @@
       <file leaf-file-name="friends-component.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/friends-component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="6" lean-forward="true" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+            <state relative-caret-position="414">
+              <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
               <folding>
                 <marker date="1492004127041" expanded="true" signature="910:1140" ph="..." />
                 <marker date="1492004127041" expanded="true" signature="1209:1730" ph="..." />
@@ -100,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conversation-component.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="conversation-component.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/conversation-component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-180">
-              <caret line="29" column="59" lean-forward="true" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
+            <state relative-caret-position="378">
+              <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <marker date="1492004730152" expanded="true" signature="3477:4011" ph="..." />
                 <marker date="1492004730152" expanded="true" signature="3556:3980" ph="..." />
@@ -125,8 +113,8 @@
       <file leaf-file-name="xhrService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scripts/xhrService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="102" column="45" lean-forward="true" selection-start-line="102" selection-start-column="45" selection-end-line="102" selection-end-column="45" />
+            <state relative-caret-position="396">
+              <caret line="22" column="21" lean-forward="false" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -195,10 +183,10 @@
         <option value="$PROJECT_DIR$/src/scripts/main.js" />
         <option value="$PROJECT_DIR$/src/scripts/router.js" />
         <option value="$PROJECT_DIR$/src/scripts/app.js" />
-        <option value="$PROJECT_DIR$/src/scripts/xhrService.js" />
-        <option value="$PROJECT_DIR$/src/scripts/navbar.js" />
         <option value="$PROJECT_DIR$/src/scripts/friends-component.js" />
         <option value="$PROJECT_DIR$/src/scripts/conversation-component.js" />
+        <option value="$PROJECT_DIR$/src/scripts/xhrService.js" />
+        <option value="$PROJECT_DIR$/src/scripts/navbar.js" />
       </list>
     </option>
   </component>
@@ -435,12 +423,12 @@
       <updated>1491898789044</updated>
       <workItem from="1491898790543" duration="352000" />
       <workItem from="1491899196752" duration="23791000" />
-      <workItem from="1491977820291" duration="25149000" />
+      <workItem from="1491977820291" duration="26391000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49292000" />
+    <option name="totallyTimeSpent" value="50534000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
@@ -647,22 +635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="41" lean-forward="false" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="21" lean-forward="false" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scripts/router.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -671,40 +643,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/navbar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="26" lean-forward="false" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/xhrService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="102" column="45" lean-forward="true" selection-start-line="102" selection-start-column="45" selection-end-line="102" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scripts/friends-component.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="6" lean-forward="true" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-          <folding>
-            <marker date="1492004127041" expanded="true" signature="910:1140" ph="..." />
-            <marker date="1492004127041" expanded="true" signature="1209:1730" ph="..." />
-            <marker date="1492004127041" expanded="true" signature="1298:1515" ph="..." />
-            <marker date="1492004127041" expanded="true" signature="1611:1695" ph="..." />
-            <marker date="1492004127041" expanded="true" signature="1614:1691" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scripts/conversation-component.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-180">
-          <caret line="29" column="59" lean-forward="true" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
+        <state relative-caret-position="378">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <marker date="1492004730152" expanded="true" signature="3477:4011" ph="..." />
             <marker date="1492004730152" expanded="true" signature="3556:3980" ph="..." />
@@ -718,6 +660,52 @@
             <marker date="1492004730152" expanded="true" signature="5652:5736" ph="..." />
             <marker date="1492004730152" expanded="true" signature="5655:5732" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/friends-component.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
+          <folding>
+            <marker date="1492004127041" expanded="true" signature="910:1140" ph="..." />
+            <marker date="1492004127041" expanded="true" signature="1209:1730" ph="..." />
+            <marker date="1492004127041" expanded="true" signature="1298:1515" ph="..." />
+            <marker date="1492004127041" expanded="true" signature="1611:1695" ph="..." />
+            <marker date="1492004127041" expanded="true" signature="1614:1691" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/xhrService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="21" lean-forward="false" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="21" lean-forward="false" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="27" lean-forward="false" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/navbar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="76" lean-forward="false" selection-start-line="7" selection-start-column="76" selection-end-line="7" selection-end-column="76" />
+          <folding />
         </state>
       </provider>
     </entry>
