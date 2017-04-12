@@ -42,7 +42,7 @@
             if (theUrl === '/') {
                 someFileName += 'web/index.html';
             }
-            if (theUrl === '/messages') {
+            if (theUrl === '/messages' || theUrl === '/friends' ) {
                 someFileName = 'web/index.html';
             }
             if (theUrl === '/stylesheets/app.css') {

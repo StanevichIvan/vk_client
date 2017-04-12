@@ -1,6 +1,6 @@
 var xhrService = (function () {
-
-    const token = '4f8804bdb170b7d29d689420b2b379066bf79c843d1d6ea85ca0a5f417d0e3844ea2541e279f439bf4417';
+    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
+    const token = 'f2832af6f5434e4d2dc99cb7a7e4c9e878a4d3595e50b4edf5eb10a3eff0626851d1aa6b7ef2e17dd6678';
     const baseURL = 'http://localhost:5000/';
 
     /**
@@ -38,10 +38,16 @@ var xhrService = (function () {
         return fetch(`${baseURL}method/messages.send?access_token=${token}&user_id=${uid}&message=${message}`, {method: 'POST'});
     }
 
+    const getFriends = function(){
+        return fetch(`${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`, {method: 'GET'})
+            .then(res => res.json());
+    };
+
     return {
         getDialogs: getDialogs,
         getUsersProfiles: getUsersProfiles,
         getMessages: getMessages,
-        sendMessage: sendMessage
+        sendMessage: sendMessage,
+        getFriends: getFriends
     };
 })();

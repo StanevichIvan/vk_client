@@ -1,7 +1,8 @@
 var router = (function () {
 
     var components = {
-        dialogs: window.conversationComponent
+        dialogs: window.conversationComponent,
+        friends: window.friendsComponent
     };
 
     function Router() {
@@ -17,11 +18,21 @@ var router = (function () {
             }
         };
         this.renderComponent = function (componentName) {
+
+            if (this.prevComponent) {
+                this.prevComponent.destroy();
+            }
+
             switch (componentName.toLowerCase()) {
                 case 'messages':
                     let messages = new components.dialogs();
                     history.pushState({component: componentName}, componentName, componentName.toLowerCase());
                     this.prevComponent = messages;
+                    break;
+
+                case 'friends':
+                    let friends = new components.friends();
+                    history.pushState({component: componentName}, componentName, componentName.toLowerCase())
                     break;
                 case 'blank':
                     this.prevComponent.destroy();
