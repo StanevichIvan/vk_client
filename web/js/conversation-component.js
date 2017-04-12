@@ -173,7 +173,7 @@ var conversationComponent = (function () {
                         </div>`;
 
         return div;
-    }
+    };
 
     /**
      * render dom element for message

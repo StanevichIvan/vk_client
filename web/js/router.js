@@ -8,10 +8,6 @@ var router = (function () {
 
         this.prevComponent;
 
-        if (window.location.pathname !== '/') {
-            let path = window.location.pathname.replace('/', '');
-        }
-
         // listen nav controls
         window.onpopstate = history.onpushstate = (e) => {
             if (e.state !== null) {
@@ -32,6 +28,12 @@ var router = (function () {
                     break;
             }
         };
+
+        if (window.location.pathname !== '/') {
+            let path = window.location.pathname.replace('/', '');
+            this.renderComponent(path);
+        }
+
     }
 
     return Router;

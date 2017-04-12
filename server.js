@@ -42,6 +42,9 @@
             if (theUrl === '/') {
                 someFileName += 'web/index.html';
             }
+            if (theUrl === '/messages') {
+                someFileName = 'web/index.html';
+            }
             if (theUrl === '/stylesheets/app.css') {
                 someFileName = 'web/css/app.css';
             }
