@@ -8,8 +8,49 @@
      * @returns {Promise}
      */
     const getDialogs = function () {
-        return fetch(baseURL + 'method/messages.getDialogs?access_token=' + token, {method: 'GET'});
+        let dialogs;
+
+        return fetch(baseURL + 'method/messages.getDialogs?access_token=' + token, {method: 'GET'})
+            .then(res=> res.json())
+            .then(res => res.response)
+            .then((json) => {
+                let idList = json.map((item) => {
+                    if (item.uid)
+                        return item.uid;
+                    return '';
+                });
+                dialogs = json;
+                return getUsersProfiles(idList);
+            })
+            .then(res => res.json())
+            .then((res) => {
+                return mergeDialogsInfo(res.response, dialogs);
+            });
     };
+
+    /**
+     * Merge data from two requests
+     * @param userData {Array}
+     * @param dialogs {Array}
+     * @returns {Array}
+     */
+    var mergeDialogsInfo = function (userData, dialogs) {
+        let diaolgsBundle = [];
+
+        dialogs.forEach((item) => {
+            if (typeof item === 'object') {
+                userData.forEach((user) => {
+                    if (item.uid === user.uid) {
+                        let resObj = Object.assign({}, item);
+                        resObj['user'] = user;
+                        diaolgsBundle.push(new Dialog(resObj));
+                    }
+                });
+            }
+        });
+        return diaolgsBundle;
+    };
+
 
     /**
      * Loads user data from vk server
@@ -25,7 +66,14 @@
      * @returns {*}
      */
     const getMessages = function (uid) {
-        return fetch(`${baseURL}method/messages.getHistory?access_token=${token}&count=200&time_offset=0&user_id=${uid}`, {method: 'GET'});
+        return fetch(`${baseURL}method/messages.getHistory?access_token=${token}&count=200&time_offset=0&user_id=${uid}`, {method: 'GET'})
+            .then((res) => res.json())
+            .then((res) => res.response)
+            .then((messagesList) => {
+                return messagesList.map((item) => {
+                    return new Dialog(item);
+                });
+            });
     };
 
     /**
@@ -38,12 +86,36 @@
         return fetch(`${baseURL}method/messages.send?access_token=${token}&user_id=${uid}&message=${message}`, {method: 'POST'});
     }
 
-    const getFriends = function(){
+    const getFriends = function () {
         return fetch(`${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`, {method: 'GET'})
-            .then(res => res.json());
+            .then(res => {
+                return res.json();
+            })
+            .then(res => {
+                return res.response.map((item)=> {
+                    return new User(item);
+                });
+            });
     };
 
-    window.app = {};
+    function User(item) {
+        this.firstName = item.first_name || '';
+        this.lastName = item.last_name || '';
+        this.photo = item.photo_50 || '';
+        this.lastSeen = item.last_seen || '';
+        this.nickname = item.nickname || '';
+        this.id = item.uid || 0;
+    }
+
+    function Dialog(item) {
+        this.body = item.body || '';
+        this.out = item.out || 0;
+        this.user = item.user ? new User(item.user) : null;
+    }
+
+    if(!window.app)
+        window.app = {};
+
     app.xhrService = {
         getDialogs: getDialogs,
         getUsersProfiles: getUsersProfiles,

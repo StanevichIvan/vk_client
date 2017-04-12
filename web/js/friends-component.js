@@ -22,13 +22,13 @@ app.friendsComponent = (function () {
      * @param img {String}
      * @returns {Element}
      */
-    function createFriend(item) {
+    function createFriend(user) {
 
         let div = document.createElement('div');
         div.className += "conversation__message new";
-        div.innerHTML = `<img class="conversation__avatar" src="${item.photo_50}">
+        div.innerHTML = `<img class="conversation__avatar" src="${user.photo}">
                             <div class="conversation__message-info">
-                                <h4 class="conversation__name">${item.first_name} ${item.last_name}</h4>
+                                <h4 class="conversation__name">${user.firstName} ${user.lastName}</h4>
                                 <!--<p class="conversation__message-text">Of course!</p>-->
                             </div>
                             <div class="conversation__message-info">
@@ -58,10 +58,10 @@ app.friendsComponent = (function () {
         return fragment;
     }
 
-    function showFriends(data) {
-        if (data.response.length > 0) {
+    function showFriends(users) {
+        if (users.length > 0) {
             document.getElementById('messages-container').innerHTML = '';
-            document.getElementById('messages-container').appendChild(createListFragment(data.response, createFriend));
+            document.getElementById('messages-container').appendChild(createListFragment(users, createFriend));
         }
     }
 
