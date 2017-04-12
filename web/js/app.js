@@ -28,12 +28,3 @@ var app = (function () {
     };
 
 })();
-
-// function authorize(response) {
-//     if (response.session) {
-//         // showFriends();
-//     }
-//     else {
-//         alert("Please, enter correct credentials");
-//     }
-// }
