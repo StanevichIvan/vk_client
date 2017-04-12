@@ -4,9 +4,9 @@ var friendsComponent = (function () {
 
     function FriendsComponent(mountNode) {
         this.render();
-
+        this.mountNode = 'messages-container';
         this.destroy = function() {
-
+            document.getElementById(this.mountNode).innerHTML= '';
         };
     }
 

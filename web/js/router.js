@@ -32,7 +32,8 @@ var router = (function () {
 
                 case 'friends':
                     let friends = new components.friends();
-                    history.pushState({component: componentName}, componentName, componentName.toLowerCase())
+                    history.pushState({component: componentName}, componentName, componentName.toLowerCase());
+                    this.prevComponent = friends;
                     break;
                 case 'blank':
                     this.prevComponent.destroy();

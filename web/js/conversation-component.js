@@ -10,7 +10,7 @@ var conversationComponent = (function () {
         this.mountNode = mountNode;
         this.showDialogs();
 
-        let messageInterval;
+        this.messageInterval = {};
         document.getElementById("chart-form").addEventListener('submit', (event) => {
             event.preventDefault();
             const message = event.target.message.value;
@@ -24,18 +24,17 @@ var conversationComponent = (function () {
             const uid = event.target.closest('.conversation__message').dataset.id;
             this.showUserMessages(uid);
 
-            clearInterval(messageInterval);
-            messageInterval = setInterval(() => {
+            clearInterval(this.messageInterval);
+            this.messageInterval = setInterval(() => {
                 this.showUserMessages(uid);
             }, 2000);
         });
 
         this.destroy = function () {
-            clearInterval(messageInterval);
+            clearInterval(this.messageInterval);
             document.getElementById('dialogs-container').innerHTML = '';
             document.getElementById('messages-container').innerHTML = '';
         }
-
     }
 
     /**
