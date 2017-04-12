@@ -1,19 +1,18 @@
-(function(){
+(function () {
+
 
     const app = window.app.getInstance();
+    window.app.menuObserver.subscribe(toggleMenu);
 
     document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.main-logo').addEventListener('click', window.app.menuObserver.fire('menu click'));
+    });
+
+    function toggleMenu() {
         let icon = document.querySelector('.main-logo');
         let menu = document.querySelector('.content__menu');
         icon.addEventListener('click', function () {
             menu.classList.toggle('active');
-            // if (!menuActive) {
-            //     menu.className += " active";
-            //     menuActive = true;
-            // } else {
-            //     menu.className = menu.className.replace("active", '');
-            //     menuActive = false;
-            // }
         });
-    });
+    }
 })();
