@@ -1,6 +1,6 @@
-var friendsComponent = (function () {
+app.friendsComponent = (function () {
 
-    const vkService = window.xhrService;
+    const vkService = window.app.xhrService;
 
     function FriendsComponent(mountNode) {
         this.render();

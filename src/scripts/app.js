@@ -1,30 +1,26 @@
 'use strict';
 
 
-var app = (function () {
+(function () {
 
     // Instance stores a reference to the Singleton
     var instance;
 
     function init() {
-
-        const router = new window.router();
-        const navbar = new window.navbarComponent(router);
+        const router = new window.app.router();
+        const navbar = new window.app.navbarComponent(router);
 
         return {
-            router : router
+            router: router
         };
     }
 
-    return {
-        getInstance: function () {
+    app.getInstance = function () {
 
-            if (!instance) {
-                instance = init();
-            }
-
-            return instance;
+        if (!instance) {
+            instance = init();
         }
-    };
 
+        return instance;
+    };
 })();

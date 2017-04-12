@@ -1,8 +1,8 @@
-var router = (function () {
+(function () {
 
     var components = {
-        dialogs: window.conversationComponent,
-        friends: window.friendsComponent
+        dialogs: window.app.conversationComponent,
+        friends: window.app.friendsComponent
     };
 
     function Router() {
@@ -48,5 +48,5 @@ var router = (function () {
 
     }
 
-    return Router;
+    app.router = Router;
 })();

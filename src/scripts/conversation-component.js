@@ -1,6 +1,6 @@
-var conversationComponent = (function () {
+(function () {
 
-    const vkService = window.xhrService;
+    const vkService = window.app.xhrService;
 
     /**
      * @param mountNode
@@ -203,6 +203,5 @@ var conversationComponent = (function () {
         return div;
     };
 
-
-    return Conversations;
+    app.conversationComponent = Conversations;
 })();

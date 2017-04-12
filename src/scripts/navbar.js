@@ -1,4 +1,4 @@
-var navbarComponent = (function () {
+app.navbarComponent = (function () {
 
     function NavbarComponent(router) {
         const navbarNode = document.getElementById("nav-bar");
