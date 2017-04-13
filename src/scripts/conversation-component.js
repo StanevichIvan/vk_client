@@ -15,6 +15,7 @@
         this.messagesContainer = document.getElementById('messages-container');
         this.dialogsContainer = document.getElementById('dialogs-container');
         this.chartForm = document.getElementById("chart-form");
+        this.messageInput = document.getElementById("message-input");
 
         this.newMessage = (messages) => {
 
@@ -36,9 +37,10 @@
             event.preventDefault();
             const message = event.target.message.value;
             vkService.sendMessage(this.userID, message).then(() =>  {
+                this.messageInput.value = '';
                 setTimeout(()=> {
                     this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-                }, 1000);
+                }, 300);
             });
         };
 
