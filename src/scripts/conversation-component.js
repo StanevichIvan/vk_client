@@ -10,7 +10,7 @@
         this.mountNode = mountNode;
         this.userID = 0;
         this.messages = [];
-        this.activeRequest = null;
+        this.activeRequest = {};
         this.messages = [];
         this.messagesContainer = document.getElementById('messages-container');
         this.dialogsContainer = document.getElementById('dialogs-container');
@@ -53,12 +53,14 @@
         this.chartForm.addEventListener('submit', this.formSubmit);
         this.dialogsContainer.addEventListener('click', this.dialogSelect);
 
-        this.destroy = function () {
+        this.destroy = () => {
             this.dialogsContainer.innerHTML = '';
             this.messagesContainer.innerHTML = '';
             this.chartForm.removeEventListener('submit', this.dialogSelect);
             this.dialogsContainer.removeEventListener('click', this.dialogSelect);
             window.app.messagesObserver.unsubscribeAll();
+            if(this.activeRequest.cancel)
+                this.activeRequest.cancel();
         };
 
         this.showDialogs();
@@ -72,7 +74,7 @@
      */
     Conversations.prototype.showDialogs = function () {
 
-        vkService.getDialogs()
+        vkService.getDialogs(this.activeRequest)
             .then((res) => {
                 this.renderDialogs(res);
             }).catch((err) => {
@@ -105,7 +107,7 @@
     Conversations.prototype.showUserMessages = function (uid) {
         document.getElementById('chart-form').dataset.id = uid;
 
-        vkService.getMessages(uid)
+        vkService.getMessages(this.activeRequest, uid)
             .then((messages) => {
                 this.messages = messages;
                 this.renderMesasges(messages);

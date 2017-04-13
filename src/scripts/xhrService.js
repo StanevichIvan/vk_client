@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
-    const token = '15f5bb87dab8ff18e2eaf622eee41d5482c245a7a3610dd4e635d1f9f593977014f2b209ee44867b286ff';
+    const token = '';
     const baseURL = 'http://localhost:5000/';
     let longPollCredentials = {
         server: '',
@@ -9,38 +9,50 @@
     };
 
     let longPollCreated = false;
+
     /**
      *
      * @returns {Promise}
      */
-    const getDialogs = function () {
+    const getDialogs = function (tokenCancel) {
         let dialogs;
 
-        return fetch(baseURL + 'method/messages.getDialogs?access_token=' + token, {method: 'GET'})
-            .then(res => res.json())
-            .then(res => res.response)
-            .then((json) => {
+        let xhr = new XMLHttpRequest;
+        xhr.open("GET", baseURL + 'method/messages.getDialogs?access_token=' + token);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
                 let idList = json.map((item) => {
                     if (item.uid)
                         return item.uid;
                     return '';
                 });
                 dialogs = json;
-                return getUsersProfiles(idList);
-            })
-            .then(res => res.json())
+
+                resolve(getUsersProfiles(tokenCancel, idList));
+            };
+
+            tokenCancel.cancel = function () {  // SPECIFY CANCELLATION
+                xhr.abort(); // abort request
+                reject(new Error("Cancelled")); // reject the promise
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        })
             .then((res) => {
-                return mergeDialogsInfo(res.response, dialogs);
+                return mergeDialogsInfo(res, dialogs);
             });
     };
 
     /**
+     * Helper
      * Merge data from two requests
      * @param userData {Array}
      * @param dialogs {Array}
      * @returns {Array}
      */
-    var mergeDialogsInfo = function (userData, dialogs) {
+    const mergeDialogsInfo = function (userData, dialogs) {
         let diaolgsBundle = [];
 
         dialogs.forEach((item) => {
@@ -57,29 +69,54 @@
         return diaolgsBundle;
     };
 
-
     /**
-     * Loads user data from vk server
+     * Loads data users profiles
+     * @param tokenCancel
      * @param listOfIds
      * @returns {Promise}
      */
-    const getUsersProfiles = function (listOfIds) {
-        return fetch(baseURL + 'method/users.get?access_token=' + token + "&fields=" + "photo_50" + "&user_ids=" + listOfIds, {method: 'GET'});
+    const getUsersProfiles = function (tokenCancel, listOfIds) {
+        let xhr = new XMLHttpRequest;
+        xhr.open("GET", baseURL + 'method/users.get?access_token=' + token + "&fields=" + "photo_50" + "&user_ids=" + listOfIds);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                console.log(json);
+                resolve(json);
+            };
+
+            tokenCancel.cancel = function () {  // SPECIFY CANCELLATION
+                xhr.abort(); // abort request
+                reject(new Error("Cancelled")); // reject the promise
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
     };
 
     /**
      * Get messages from user
      * @returns {*}
      */
-    const getMessages = function (uid) {
-        return fetch(`${baseURL}method/messages.getHistory?access_token=${token}&count=200&time_offset=0&user_id=${uid}`, {method: 'GET'})
-            .then((res) => res.json())
-            .then((res) => res.response)
-            .then((messagesList) => {
-                return messagesList.map((item) => {
-                    return new Dialog(item);
-                });
-            });
+    const getMessages = function (tokenCancel, uid) {
+
+        let xhr = new XMLHttpRequest;
+        xhr.open("GET", `${baseURL}method/messages.getHistory?access_token=${token}&count=200&time_offset=0&user_id=${uid}`);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json.map(item => new Dialog(item)));
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
     };
 
     /**
@@ -92,22 +129,41 @@
         return fetch(`${baseURL}method/messages.send?access_token=${token}&user_id=${uid}&message=${message}`, {method: 'POST'});
     }
 
-    const getFriends = function () {
-        return fetch(`${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`, {method: 'GET'})
-            .then(res => {
-                return res.json();
-            })
-            .then(res => {
-                return res.response.map((item) => {
-                    return new User(item);
-                });
-            });
+    // const getFriends = function () {
+    //     return fetch(`${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`, {method: 'GET'})
+    //         .then(res => {
+    //             return res.json();
+    //         })
+    //         .then(res => {
+    //             return res.response.map((item) => {
+    //                 return new User(item);
+    //             });
+    //         });
+    // };
+
+    const getFriends = function (tokenCancel) {
+        let xhr = new XMLHttpRequest;
+        xhr.open("GET", `${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json.map(item => new User(item)));
+            };
+
+            tokenCancel['cancel'] = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
     };
 
 
     const longPoll = function () {
 
-        if(longPollCreated) return;
+        if (longPollCreated) return;
 
         let xhr = new XMLHttpRequest();
         xhr.open("GET", `${baseURL}method/messages.getLongPollServer?access_token=${token}`, true);

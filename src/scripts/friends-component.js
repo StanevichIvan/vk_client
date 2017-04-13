@@ -3,16 +3,25 @@
     const vkService = window.app.xhrService;
 
     function FriendsComponent(mountNode) {
-        this.render();
         this.activeRequest = null;
         this.mountNode = 'messages-container';
-        this.destroy = function() {
-            document.getElementById(this.mountNode).innerHTML= '';
+        this.destroy = function () {
+            document.getElementById(this.mountNode).innerHTML = '';
+        };
+        this.activeRequest = {};
+        this.container = document.getElementById('messages-container');
+
+        this.render();
+        this.destroy = () => {
+            if (this.activeRequest.cancel)
+                this.activeRequest.cancel();
+
+            this.container.innerHTML = '';
         };
     }
 
     FriendsComponent.prototype.render = function () {
-        this.activeRequest = vkService.getFriends().then((res)=> {
+        this.activeRequest = vkService.getFriends(this.activeRequest).then((res) => {
             showFriends(res);
         });
     };
@@ -30,7 +39,6 @@
         div.innerHTML = `<img class="conversation__avatar" src="${user.photo}">
                             <div class="conversation__message-info">
                                 <h4 class="conversation__name">${user.firstName} ${user.lastName}</h4>
-                                <!--<p class="conversation__message-text">Of course!</p>-->
                             </div>
                             <div class="conversation__message-info">
                                 <h4 class="conversation__name conversation__name_right">
@@ -66,5 +74,5 @@
         }
     }
 
-    app.friendsComponent =  FriendsComponent;
+    app.friendsComponent = FriendsComponent;
 })();
