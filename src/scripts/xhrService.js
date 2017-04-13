@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
-    const token = '';
+    const token = '15f5bb87dab8ff18e2eaf622eee41d5482c245a7a3610dd4e635d1f9f593977014f2b209ee44867b286ff';
     const baseURL = 'http://localhost:5000/';
     let longPollCredentials = {
         server: '',
@@ -8,6 +8,7 @@
         ts: ''
     };
 
+    let longPollCreated = false;
     /**
      *
      * @returns {Promise}
@@ -106,6 +107,8 @@
 
     const longPoll = function () {
 
+        if(longPollCreated) return;
+
         let xhr = new XMLHttpRequest();
         xhr.open("GET", `${baseURL}method/messages.getLongPollServer?access_token=${token}`, true);
         xhr.send();
@@ -153,6 +156,7 @@
             };
             xhr.open("GET", url, true);
             xhr.send();
+            longPollCreated = true;
         }
     };
 

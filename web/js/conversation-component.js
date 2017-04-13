@@ -8,31 +8,13 @@
      */
     function Conversations(mountNode) {
         this.mountNode = mountNode;
-        this.showDialogs();
         this.userID = 0;
         this.messages = [];
         this.activeRequest = null;
         this.messages = [];
         this.messagesContainer = document.getElementById('messages-container');
-
-        document.getElementById("chart-form").addEventListener('submit', (event) => {
-            event.preventDefault();
-            const message = event.target.message.value;
-            vkService.sendMessage(this.userID, message).then(() =>  {
-                setTimeout(()=> {
-                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-                }, 1000);
-            });
-        });
-
-        document.getElementById('dialogs-container').addEventListener('click', (event) => {
-            const id = event.target.closest('.conversation__message').dataset.id;
-            this.userID = event.target.closest('.conversation__message').dataset.id;
-            this.showUserMessages(id);
-        });
-
-
-        vkService.longPoll();
+        this.dialogsContainer = document.getElementById('dialogs-container');
+        this.chartForm = document.getElementById("chart-form");
 
         this.newMessage = (messages) => {
 
@@ -49,13 +31,37 @@
             this.messages.push(arr);
             this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
         };
-        window.app.messagesObserver.subscribe(this.newMessage);
 
+        this.formSubmit = (event) => {
+            event.preventDefault();
+            const message = event.target.message.value;
+            vkService.sendMessage(this.userID, message).then(() =>  {
+                setTimeout(()=> {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 1000);
+            });
+        };
+
+        this.dialogSelect = (event) => {
+            const id = event.target.closest('.conversation__message').dataset.id;
+            this.userID = event.target.closest('.conversation__message').dataset.id;
+            this.showUserMessages(id);
+        };
+
+        this.chartForm.addEventListener('submit', this.formSubmit);
+        this.dialogsContainer.addEventListener('click', this.dialogSelect);
 
         this.destroy = function () {
-            document.getElementById('dialogs-container').innerHTML = '';
-            document.getElementById('messages-container').innerHTML = '';
-        }
+            this.dialogsContainer.innerHTML = '';
+            this.messagesContainer.innerHTML = '';
+            this.chartForm.removeEventListener('submit', this.dialogSelect);
+            this.dialogsContainer.removeEventListener('click', this.dialogSelect);
+            window.app.messagesObserver.unsubscribeAll();
+        };
+
+        this.showDialogs();
+        vkService.longPoll();
+        window.app.messagesObserver.subscribe(this.newMessage);
     }
 
     /**
