@@ -9,31 +9,50 @@
     function Conversations(mountNode) {
         this.mountNode = mountNode;
         this.showDialogs();
-
+        this.userID = 0;
+        this.messages = [];
         this.activeRequest = null;
-        this.messageInterval = {};
+        this.messages = [];
+        this.messagesContainer = document.getElementById('messages-container');
 
         document.getElementById("chart-form").addEventListener('submit', (event) => {
             event.preventDefault();
             const message = event.target.message.value;
-            const id = event.target.dataset.id;
-            vkService.sendMessage(id, message).then((res) => {
-                this.showUserMessages(id);
+            vkService.sendMessage(this.userID, message).then(() =>  {
+                setTimeout(()=> {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 1000);
             });
         });
 
         document.getElementById('dialogs-container').addEventListener('click', (event) => {
             const id = event.target.closest('.conversation__message').dataset.id;
+            this.userID = event.target.closest('.conversation__message').dataset.id;
             this.showUserMessages(id);
-
-            clearInterval(this.messageInterval);
-            this.messageInterval = setInterval(this.showUserMessages(id)
-            , 2000);
-
         });
 
+
+        vkService.longPoll();
+
+        this.newMessage = (messages) => {
+
+            let arr = [];
+
+            messages.forEach((item) => {
+                let obj = {};
+                obj.out = 0;
+                obj.body = item[6];
+                obj.user = item[3];
+                obj.out = item[3] === parseInt(this.userID, 10) ? 1: 0;
+                arr.push(new window.app.model.Dialog(obj));
+            });
+            this.messages.push(arr);
+            this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
+        };
+        window.app.messagesObserver.subscribe(this.newMessage);
+
+
         this.destroy = function () {
-            clearInterval(this.messageInterval);
             document.getElementById('dialogs-container').innerHTML = '';
             document.getElementById('messages-container').innerHTML = '';
         }
@@ -80,6 +99,7 @@
 
         vkService.getMessages(uid)
             .then((messages) => {
+                this.messages = messages;
                 this.renderMesasges(messages);
             });
     };
@@ -93,6 +113,7 @@
 
     /**
      *
+     * @param message {Dialog}
      * @returns {Element}
      */
     var messageRender = function (message) {

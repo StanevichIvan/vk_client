@@ -1,8 +1,6 @@
-"use strict";
-
-(function () {
+(function() {
     function Observer() {
-        this.handlers = []; // observers
+        this.handlers = [];  // observers
     }
 
     Observer.prototype.subscribe = function (fn) {
@@ -10,11 +8,13 @@
     };
 
     Observer.prototype.unsubscribe = function (fn) {
-        this.handlers = this.handlers.filter(function (item) {
-            if (item !== fn) {
-                return item;
+        this.handlers = this.handlers.filter(
+            function (item) {
+                if (item !== fn) {
+                    return item;
+                }
             }
-        });
+        );
     };
 
     Observer.prototype.fire = function (o, thisObj) {
@@ -24,5 +24,7 @@
         });
     };
 
+    window.app.messagesObserver = new Observer();
     window.app.menuObserver = new Observer();
 })();
+

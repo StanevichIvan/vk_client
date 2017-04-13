@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -50,8 +49,9 @@
                 <li class="menu__item menu__item_photos"><a href="#" class="menu__link">Photos</a></li>
                 <li class="menu__item menu__item_videos"><a href="#" class="menu__link">Videos</a></li>
                 <li class="menu__item menu__item_music"><a href="#" class="menu__link">Music</a></li>
-                <li class="menu__item menu__item_messages"><a href="#" class="menu__link">Messages <span
-                        class="menu__counter">2</span></a></li>
+                <li class="menu__item menu__item_messages" id="message-nav-button"><a href="#" class="menu__link">Messages
+                    <!--<span class="menu__counter">2</span>-->
+                </a></li>
                 <li class="menu__item menu__item_groups"><a href="#" class="menu__link">Groups</a></li>
                 <li class="menu__item menu__item_news"><a href="#" class="menu__link">News</a></li>
                 <li class="menu__item menu__item_feedback"><a href="#" class="menu__link">Feedback</a></li>
@@ -313,7 +313,7 @@
                     <form class="chart__form" id="chart-form">
                         <div class="chart__input-wrap">
                             <div class="chart__input">
-                                <input placeholder="Your message" name="message">
+                                <input placeholder="Your message" autocomplete="off" name="message">
                                 <div class="chart__icons-container">
                                     <i class="chart__icon chart__icon_attach"></i>
                                     <i class="chart__icon chart__icon_photo"></i>
@@ -331,7 +331,7 @@
 </div>
 
 <script src="web/js/xhrService.js"></script>
-<script src="web/js/menuObserver.js"></script>
+<script src="web/js/Observer.js"></script>
 <script src="web/js/conversation-component.js"></script>
 <script src="web/js/friends-component.js"></script>
 <script src="web/js/router.js"></script>

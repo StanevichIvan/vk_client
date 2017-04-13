@@ -1,7 +1,12 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
-    const token = '81df4c160fb231a0ac822246a803e58c628566b604b52a3f580500527da9d547782fa28ba0639e6edd';
+    const token = '';
     const baseURL = 'http://localhost:5000/';
+    let longPollCredentials = {
+        server: '',
+        key: '',
+        ts: ''
+    };
 
     /**
      *
@@ -11,7 +16,7 @@
         let dialogs;
 
         return fetch(baseURL + 'method/messages.getDialogs?access_token=' + token, {method: 'GET'})
-            .then(res=> res.json())
+            .then(res => res.json())
             .then(res => res.response)
             .then((json) => {
                 let idList = json.map((item) => {
@@ -92,10 +97,63 @@
                 return res.json();
             })
             .then(res => {
-                return res.response.map((item)=> {
+                return res.response.map((item) => {
                     return new User(item);
                 });
             });
+    };
+
+
+    const longPoll = function () {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `${baseURL}method/messages.getLongPollServer?access_token=${token}`, true);
+        xhr.send();
+        xhr.addEventListener("load", function () {
+            if (this.status === 200) {
+                longPollCredentials = JSON.parse(this.responseText).response;
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", `https://${longPollCredentials.server}?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`, true);
+                xhr.send();
+                xhr.addEventListener('load', function () {
+                    console.log(this);
+                });
+
+                subscribe(`${baseURL}nim0800?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`);
+            }
+        });
+
+        function subscribe(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState !== 4) return;
+
+                if (this.status === 200) {
+                    let respData = JSON.parse(this.responseText);
+                    longPollCredentials.ts = respData.ts; // update timestamp
+
+                    if (respData.updates) {
+                        if (respData.updates.length !== 0) {
+
+                            let messages = [];
+                            // grab only new messages
+
+                            respData.updates.forEach((item) => {
+                                if (item[0] === 4) {
+                                    messages.push(item);
+                                }
+                            });
+                            window.app.messagesObserver.fire(messages);
+                        }
+                    }
+                } else {
+                }
+                // new subscription with updated timestamp
+                subscribe(`${baseURL}nim0800?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`);
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
     };
 
     function User(item) {
@@ -113,14 +171,19 @@
         this.user = item.user ? new User(item.user) : null;
     }
 
-    if(!window.app)
+    if (!window.app)
         window.app = {};
+
+    app.model = {};
+    app.model.Dialog = Dialog;
+    app.model.User = User;
 
     app.xhrService = {
         getDialogs: getDialogs,
         getUsersProfiles: getUsersProfiles,
         getMessages: getMessages,
         sendMessage: sendMessage,
-        getFriends: getFriends
+        getFriends: getFriends,
+        longPoll: longPoll
     };
 })();

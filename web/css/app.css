@@ -212,9 +212,18 @@ body {
     color: #c3d6ed;
     font-weight: 400;
     transition: all 0.3s; }
+    .menu__link .message {
+      color: red;
+      animation: color_change 1s 4s alternate; }
     .menu__link:hover {
       color: white;
       font-weight: 600; }
+
+@keyframes color_change {
+  from {
+    background-color: white; }
+  to {
+    background-color: red; } }
 
 .conversation {
   background: #ffffff; }
