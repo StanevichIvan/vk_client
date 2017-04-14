@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
-    const token = 'e9657bd148cfa477655311ac10e782e052366ec7c5036c8926fc2939d168d268fdc7378658ced259e2388';
+    const token = '657bd148cfa477655311ac10e782e052366ec7c5036c8926fc2939d168d268fdc7378658ced259e2388';
     const baseURL = 'http://localhost:5000/';
     let longPollCredentials = {
         server: '',

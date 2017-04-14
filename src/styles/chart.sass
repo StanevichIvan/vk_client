@@ -10,6 +10,7 @@
     width: 100%
     min-height: 75px
     background: #fafafa
+    position: relative
   &__form
     display: flex
     align-items: center
@@ -72,3 +73,32 @@
   &__messages
     max-height: 100%
     overflow-y: auto
+
+  &__scroll-to-bottom
+    display: none
+    position: absolute
+    width: 20px
+    height: 20px
+    text-align: center
+    backface-visibility: hidden
+    perspective: 1000px
+    cursor: pointer
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+    transform: translate3d(0, 0, 0)
+
+    &.show
+      display: block
+
+
+    @keyframes shake
+      10%, 90%
+        transform: translate3d(-1px, 0, 0)
+
+      20%, 80%
+        transform: translate3d(2px, 0, 0)
+
+      30%, 50%, 70%
+        transform: translate3d(-4px, 0, 0)
+
+      40%, 60%
+        transform: translate3d(4px, 0, 0)

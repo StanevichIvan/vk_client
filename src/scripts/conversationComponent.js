@@ -16,9 +16,9 @@
         this.dialogsContainer = document.getElementById('dialogs-container');
         this.chartForm = document.getElementById("chart-form");
         this.messageInput = document.getElementById("message-input");
+        this.scrollDownButton = document.getElementById("scroll-bottom");
 
         this.newMessage = (messages) => {
-
             let arr = [];
 
             messages.forEach((item) => {
@@ -33,9 +33,10 @@
 
             if (this.messagesContainer.scrollTop === this.messagesContainer.scrollHeight) {
                 this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
-                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
             } else {
                 this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
+                this.showScrollToButtom();
             }
         };
 
@@ -53,12 +54,24 @@
             this.showUserMessages(id);
         }.bind(this);
 
+
+        this.scrollMessagesToBottom = () => {
+            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            this.scrollDownButton.classList.remove('show');
+        };
+
+        this.showScrollToButtom = () => {
+            this.scrollDownButton.classList.toggle('show');
+        };
+
         this.chartForm.addEventListener('submit', this.formSubmit);
         this.dialogsContainer.addEventListener('click', this.dialogSelect);
+        this.scrollDownButton.addEventListener('click', this.scrollMessagesToBottom);
 
         this.destroy = function () {
             this.chartForm.removeEventListener('submit', this.formSubmit);
             this.dialogsContainer.removeEventListener('click', this.dialogSelect);
+            this.scrollDownButton.removeEventListener('click', this.scrollMessagesToBottom);
             this.dialogsContainer.innerHTML = '';
             this.messagesContainer.innerHTML = '';
             window.app.messagesObserver.unsubscribeAll();
