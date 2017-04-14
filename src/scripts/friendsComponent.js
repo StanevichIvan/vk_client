@@ -2,11 +2,11 @@
 
     const vkService = window.app.xhrService;
 
-    function FriendsComponent(mountNode) {
+    function FriendsComponent() {
         this.activeRequest = null;
-        this.mountNode = 'messages-container';
+        this.mountNode = document.getElementById('messages-container');
         this.destroy = function () {
-            document.getElementById(this.mountNode).innerHTML = '';
+            this.mountNode.innerHTML = '';
         };
         this.activeRequest = {};
         this.container = document.getElementById('messages-container');
@@ -21,8 +21,26 @@
     }
 
     FriendsComponent.prototype.render = function () {
+
         this.activeRequest = vkService.getFriends(this.activeRequest).then((res) => {
             showFriends(res);
+            this.renderSearchBar();
+        });
+    };
+
+    FriendsComponent.prototype.renderSearchBar = function () {
+        let searchBar = document.createElement("div");
+        searchBar.innerHTML = `<form id="friend-search-form"><input type="text" id="friend-search" name="friend"> <button type="submit">Найти друга</button></form>`;
+        this.mountNode.prepend(searchBar);
+
+        document.getElementById("friend-search").addEventListener('keyup', (e) => {
+            e.preventDefault();
+            if(this.activeRequest.cancel)
+                this.activeRequest.cancel;
+
+            vkService.searchFriends(this.activeRequest, e.target.value).then((res) => {
+                showFriends(res);
+            });
         });
     };
 
@@ -35,6 +53,9 @@
     function createFriend(user) {
 
         let div = document.createElement('div');
+        if (typeof user !== 'object')
+            return div;
+
         div.className += "conversation__message new";
         div.innerHTML = `<img class="conversation__avatar" src="${user.photo}">
                             <div class="conversation__message-info">

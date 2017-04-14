@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
-    const token = '657bd148cfa477655311ac10e782e052366ec7c5036c8926fc2939d168d268fdc7378658ced259e2388';
+    const token = '57bd148cfa477655311ac10e782e052366ec7c5036c8926fc2939d168d268fdc7378658ced259e2388';
     const baseURL = 'http://localhost:5000/';
     let longPollCredentials = {
         server: '',
@@ -129,7 +129,7 @@
     }
 
     const getFriends = function (tokenCancel) {
-        let xhr = new XMLHttpRequest;
+        let xhr = new XMLHttpRequest();
         xhr.open("GET", `${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`);
 
         return new Promise(function (resolve, reject) {
@@ -147,6 +147,31 @@
         });
     };
 
+    const searchFriends = function (tokenCancel, name) {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}method/friends.search?access_token=${token}&q=${name}&fields=photo_50,last_seen,nickname`, true);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+
+                resolve(json.map(item => {
+                    if (typeof  item === 'object')
+                        return new User(item);
+                    return '';
+                }));
+            };
+
+            tokenCancel['cancel'] = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
 
     const longPoll = function () {
 
@@ -231,6 +256,7 @@
         getMessages: getMessages,
         sendMessage: sendMessage,
         getFriends: getFriends,
-        longPoll: longPoll
+        longPoll: longPoll,
+        searchFriends: searchFriends
     };
 })();
