@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token
-    const token = '';
+    const token = 'e9657bd148cfa477655311ac10e782e052366ec7c5036c8926fc2939d168d268fdc7378658ced259e2388';
     const baseURL = 'http://localhost:5000/';
     let longPollCredentials = {
         server: '',
@@ -82,13 +82,12 @@
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
-                console.log(json);
                 resolve(json);
             };
 
-            tokenCancel.cancel = function () {  // SPECIFY CANCELLATION
-                xhr.abort(); // abort request
-                reject(new Error("Cancelled")); // reject the promise
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
             };
             xhr.onerror = reject;
             xhr.send();
@@ -128,18 +127,6 @@
     function sendMessage(uid, message) {
         return fetch(`${baseURL}method/messages.send?access_token=${token}&user_id=${uid}&message=${message}`, {method: 'POST'});
     }
-
-    // const getFriends = function () {
-    //     return fetch(`${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`, {method: 'GET'})
-    //         .then(res => {
-    //             return res.json();
-    //         })
-    //         .then(res => {
-    //             return res.response.map((item) => {
-    //                 return new User(item);
-    //             });
-    //         });
-    // };
 
     const getFriends = function (tokenCancel) {
         let xhr = new XMLHttpRequest;

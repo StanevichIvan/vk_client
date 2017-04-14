@@ -26,42 +26,45 @@
                 obj.out = 0;
                 obj.body = item[6];
                 obj.user = item[3];
-                obj.out = item[3] === parseInt(this.userID, 10) ? 1: 0;
+                obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
                 arr.push(new window.app.model.Dialog(obj));
             });
             this.messages.push(arr);
-            this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
+
+            if (this.messagesContainer.scrollTop === this.messagesContainer.scrollHeight) {
+                this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight
+            } else {
+                this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
+            }
         };
 
-        this.formSubmit = (event) => {
+        this.formSubmit = function (event) {
             event.preventDefault();
             const message = event.target.message.value;
-            vkService.sendMessage(this.userID, message).then(() =>  {
+            vkService.sendMessage(this.userID, message).then(() => {
                 this.messageInput.value = '';
-                setTimeout(()=> {
-                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-                }, 300);
             });
-        };
+        }.bind(this);
 
-        this.dialogSelect = (event) => {
+        this.dialogSelect = function (event) {
             const id = event.target.closest('.conversation__message').dataset.id;
             this.userID = event.target.closest('.conversation__message').dataset.id;
             this.showUserMessages(id);
-        };
+        }.bind(this);
 
         this.chartForm.addEventListener('submit', this.formSubmit);
         this.dialogsContainer.addEventListener('click', this.dialogSelect);
 
-        this.destroy = () => {
+        this.destroy = function () {
+            this.chartForm.removeEventListener('submit', this.formSubmit);
+            this.dialogsContainer.removeEventListener('click', this.dialogSelect);
             this.dialogsContainer.innerHTML = '';
             this.messagesContainer.innerHTML = '';
-            this.chartForm.removeEventListener('submit', this.dialogSelect);
-            this.dialogsContainer.removeEventListener('click', this.dialogSelect);
             window.app.messagesObserver.unsubscribeAll();
-            if(this.activeRequest.cancel)
+            if (this.activeRequest.cancel)
                 this.activeRequest.cancel();
-        };
+        }.bind(this);
 
         this.showDialogs();
         vkService.longPoll();

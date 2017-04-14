@@ -5,7 +5,6 @@
 
     Observer.prototype.subscribe = function (fn) {
         this.handlers.push(fn);
-        console.debug('subscribe');
     };
 
     Observer.prototype.unsubscribe = function (fn) {
@@ -16,7 +15,6 @@
                 }
             }
         );
-        console.debug('unsubscribe');
     };
 
     Observer.prototype.unsubscribeAll = function() {
@@ -24,7 +22,7 @@
     };
 
     Observer.prototype.fire = function (o, thisObj) {
-        var scope = thisObj || window;
+        let scope = thisObj || window;
         this.handlers.forEach(function (item) {
             item.call(scope, o);
         });
