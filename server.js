@@ -3,7 +3,8 @@
     'use strict';
 
     var PORT = 5000,
-        PROXY_URL = 'https://api.vk.com';
+        PROXY_URL = 'https://api.vk.com',
+        LONG_POLL_URL = 'https://newimv4.vk.com';
 
     var http = require('http'),
         url = require('url'),
@@ -37,12 +38,27 @@
                 res.destroy();
             });
 
+        } else if (~theUrl.indexOf('nim0800')) {
+            var proxyUrl = LONG_POLL_URL + theUrl + (urlData.search || '');
+            var proxyStream = request(proxyUrl);
+            proxyStream.on('error', function (e) {
+                console.log(e);
+                res.end();
+                proxyStream.destroy();
+            });
+
+            req.pipe(proxyStream).pipe(res);
+
+            req.on('close', function () {
+                proxyStream.destroy();
+                res.destroy();
+            });
         } else {
 
             if (theUrl === '/') {
                 someFileName += 'web/index.html';
             }
-            if (theUrl === '/messages' || theUrl === '/friends' ) {
+            if (theUrl === '/messages' || theUrl === '/friends') {
                 someFileName = 'web/index.html';
             }
             if (theUrl === '/stylesheets/app.css') {

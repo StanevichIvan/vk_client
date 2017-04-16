@@ -7,7 +7,7 @@
 6 silly lifecycle @1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle @1.0.0~start: @1.0.0
 8 verbose lifecycle @1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle @1.0.0~start: PATH: /usr/share/npm/bin/node-gyp-bin:/home/ITRANSITION.CORP/i.stanevich/WebstormProjects/vk_client/node_modules/.bin:/home/ITRANSITION.CORP/i.stanevich/bin:/home/ITRANSITION.CORP/i.stanevich/.local/bin:/home/ITRANSITION.CORP/i.stanevich/bin:/home/ITRANSITION.CORP/i.stanevich/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+9 verbose lifecycle @1.0.0~start: PATH: /usr/share/npm/bin/node-gyp-bin:/home/ITRANSITION.CORP/i.stanevich/WebstormProjects/vk_client/node_modules/.bin:/home/ITRANSITION.CORP/i.stanevich/bin:/home/ITRANSITION.CORP/i.stanevich/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 10 verbose lifecycle @1.0.0~start: CWD: /home/ITRANSITION.CORP/i.stanevich/WebstormProjects/vk_client
 11 silly lifecycle @1.0.0~start: Args: [ '-c', 'gulp' ]
 12 silly lifecycle @1.0.0~start: Returned: code: 1  signal: null

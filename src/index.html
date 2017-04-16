@@ -4,14 +4,28 @@
     <meta charset="utf-8">
     <title>New Project</title>
     <link rel="stylesheet" href="web/css/app.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="web/css/emojionearea.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Generate using http://realfavicongenerator.net/ -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="web/js/emojionearea.min.js"></script>
+=======
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="web/css/jquery.emojipicker.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="web/js/jquery.emojipicker.js"></script>
+    <!-- Emoji Data -->
+    <link rel="stylesheet" type="text/css" href="web/css/jquery.emojipicker.a.css">
+    <script type="text/javascript" src="web/js/jquery.emojis.js"></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+>>>>>>> 867b585f913dc250815f83a0c38169adeed4fb97
 </head>
 <body>
-
 
 <div id="messages-content">
     <header class="header">
@@ -49,8 +63,8 @@
                 <li class="menu__item menu__item_photos"><a href="#" class="menu__link">Photos</a></li>
                 <li class="menu__item menu__item_videos"><a href="#" class="menu__link">Videos</a></li>
                 <li class="menu__item menu__item_music"><a href="#" class="menu__link">Music</a></li>
-                <li class="menu__item menu__item_messages"><a href="#" class="menu__link">Messages <span
-                        class="menu__counter">2</span></a></li>
+                <li class="menu__item menu__item_messages" id="message-nav-button"><a href="#" class="menu__link">Messages
+                </a></li>
                 <li class="menu__item menu__item_groups"><a href="#" class="menu__link">Groups</a></li>
                 <li class="menu__item menu__item_news"><a href="#" class="menu__link">News</a></li>
                 <li class="menu__item menu__item_feedback"><a href="#" class="menu__link">Feedback</a></li>
@@ -63,14 +77,6 @@
         </menu>
         <div class="content__right-column">
             <div class="conversation">
-                <div class="conversation__menu">
-                    <span class="conversation__link active">Conversations</span>
-                    <span class="conversation__link">Friends</span>
-                    <span class="conversation__link conversation__link_dots"></span>
-                </div>
-                <div class="conversation__search">
-                    <input class="conversation__input" placeholder="Find a friend">
-                </div>
                 <div class="conversation__messages" id="dialogs-container">
                     <!--<div class="conversation__message new">-->
                     <!--<img class="conversation__avatar" src="images/photo.png">-->
@@ -207,117 +213,128 @@
             <section class="chart">
                 <div class="chart__messages" id="messages-container">
                     <!--<div class="chart-message">-->
-                        <!--<div class="chart-message__avatar">-->
-                            <!--<div class="chart-message__avatar-content active">-->
-                                <!--<img src="images/photo.png">-->
-                                <!--<div class="chart-message__controls">-->
-                                    <!--<span class="chart-message__control chart-message__control_star"></span>-->
-                                    <!--<span class="chart-message__control chart-message__control_share"></span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="chart-message__time">-->
-                            <!--<span>15 sec.</span>-->
+                    <!--<div class="chart-message__avatar">-->
+                    <!--<div class="chart-message__avatar-content active">-->
+                    <!--<img src="images/photo.png">-->
+                    <!--<div class="chart-message__controls">-->
+                    <!--<span class="chart-message__control chart-message__control_star"></span>-->
+                    <!--<span class="chart-message__control chart-message__control_share"></span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__time">-->
+                    <!--<span>15 sec.</span>-->
 
-                        <!--</div>-->
-                        <!--<div class="chart-message__content">-->
-                            <!--<p class="chart-message__text">-->
-                                <!--My pictures and some other stuff, part 3. There is going to be more of them. For now-->
-                                <!--they-->
-                                <!--are sold in the USA. Hope that some day, my photos will be sold in every country of the-->
-                                <!--world! :D-->
-                            <!--</p>-->
-                            <!--<div class="chart-message__attach-container">-->
-                                <!--<div class="chart-message__attach">-->
-                                    <!--<div class="chart-message__image">-->
-                                        <!--<img src="images/file.png">-->
-                                        <!--<div class="chart-message__attach-controls">-->
-                                            <!--<span class="chart-message__icon chart-message__icon_eye"></span>-->
-                                            <!--<span class="chart-message__icon chart-message__icon_cross"></span>-->
-                                        <!--</div>-->
-                                        <!--<span class="chart-message__ext chart-message__ext_psd">.PSD</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="chart-message__description">-->
-                                        <!--<p>My maiin page.PSD</p>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__content">-->
+                    <!--<p class="chart-message__text">-->
+                    <!--My pictures and some other stuff, part 3. There is going to be more of them. For now-->
+                    <!--they-->
+                    <!--are sold in the USA. Hope that some day, my photos will be sold in every country of the-->
+                    <!--world! :D-->
+                    <!--</p>-->
+                    <!--<div class="chart-message__attach-container">-->
+                    <!--<div class="chart-message__attach">-->
+                    <!--<div class="chart-message__image">-->
+                    <!--<img src="images/file.png">-->
+                    <!--<div class="chart-message__attach-controls">-->
+                    <!--<span class="chart-message__icon chart-message__icon_eye"></span>-->
+                    <!--<span class="chart-message__icon chart-message__icon_cross"></span>-->
+                    <!--</div>-->
+                    <!--<span class="chart-message__ext chart-message__ext_psd">.PSD</span>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__description">-->
+                    <!--<p>My maiin page.PSD</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
                     <!--</div>-->
                     <!--<div class="chart-message">-->
-                        <!--<div class="chart-message__avatar">-->
-                            <!--<div class="chart-message__avatar-content">-->
-                                <!--<img src="images/photo.png">-->
-                                <!--<div class="chart-message__controls">-->
-                                    <!--<span class="chart-message__control chart-message__control_star"></span>-->
-                                    <!--<span class="chart-message__control chart-message__control_share"></span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="chart-message__time">-->
-                            <!--<span>15 sec.</span>-->
+                    <!--<div class="chart-message__avatar">-->
+                    <!--<div class="chart-message__avatar-content">-->
+                    <!--<img src="images/photo.png">-->
+                    <!--<div class="chart-message__controls">-->
+                    <!--<span class="chart-message__control chart-message__control_star"></span>-->
+                    <!--<span class="chart-message__control chart-message__control_share"></span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__time">-->
+                    <!--<span>15 sec.</span>-->
 
-                        <!--</div>-->
-                        <!--<div class="chart-message__content">-->
-                            <!--<p class="chart-message__text">-->
-                                <!--My pictures and some other stuff, part 3. There is going to be more of them. For now-->
-                                <!--they-->
-                                <!--are sold in the USA. Hope that some day, my photos will be sold in every country of the-->
-                                <!--world! :D-->
-                            <!--</p>-->
-                            <!--<div class="chart-message__attach-container">-->
-                                <!--<div class="chart-message__attach">-->
-                                    <!--<div class="chart-message__image">-->
-                                        <!--<img src="images/file.png">-->
-                                        <!--<div class="chart-message__attach-controls">-->
-                                            <!--<span class="chart-message__icon chart-message__icon_eye"></span>-->
-                                            <!--<span class="chart-message__icon chart-message__icon_cross"></span>-->
-                                        <!--</div>-->
-                                        <!--<span class="chart-message__ext chart-message__ext_psd">.PSD</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="chart-message__description">-->
-                                        <!--<p>My maiin page.PSD</p>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__content">-->
+                    <!--<p class="chart-message__text">-->
+                    <!--My pictures and some other stuff, part 3. There is going to be more of them. For now-->
+                    <!--they-->
+                    <!--are sold in the USA. Hope that some day, my photos will be sold in every country of the-->
+                    <!--world! :D-->
+                    <!--</p>-->
+                    <!--<div class="chart-message__attach-container">-->
+                    <!--<div class="chart-message__attach">-->
+                    <!--<div class="chart-message__image">-->
+                    <!--<img src="images/file.png">-->
+                    <!--<div class="chart-message__attach-controls">-->
+                    <!--<span class="chart-message__icon chart-message__icon_eye"></span>-->
+                    <!--<span class="chart-message__icon chart-message__icon_cross"></span>-->
+                    <!--</div>-->
+                    <!--<span class="chart-message__ext chart-message__ext_psd">.PSD</span>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__description">-->
+                    <!--<p>My maiin page.PSD</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
                     <!--</div>-->
                     <!--<div class="chart-message mine">-->
-                        <!--<div class="chart-message__avatar">-->
-                            <!--<div class="chart-message__avatar-content active">-->
-                                <!--<img src="images/photo.png">-->
-                                <!--<div class="chart-message__controls">-->
-                                    <!--<span class="chart-message__control chart-message__control_star"></span>-->
-                                    <!--<span class="chart-message__control chart-message__control_share"></span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="chart-message__time">-->
-                            <!--<span>15 sec.</span>-->
+                    <!--<div class="chart-message__avatar">-->
+                    <!--<div class="chart-message__avatar-content active">-->
+                    <!--<img src="images/photo.png">-->
+                    <!--<div class="chart-message__controls">-->
+                    <!--<span class="chart-message__control chart-message__control_star"></span>-->
+                    <!--<span class="chart-message__control chart-message__control_share"></span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__time">-->
+                    <!--<span>15 sec.</span>-->
 
-                        <!--</div>-->
-                        <!--<div class="chart-message__content">-->
-                            <!--<p class="chart-message__text">-->
-                                <!--My pictures and some other stuff, part 3. There is going to be more of them. For now-->
-                                <!--they-->
-                                <!--are sold in the USA. Hope that some day, my photos will be sold in every country of the-->
-                                <!--world! :D-->
-                            <!--</p>-->
-
-                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="chart-message__content">-->
+                    <!--<p class="chart-message__text">-->
+                    <!--My pictures and some other stuff, part 3. There is going to be more of them. For now-->
+                    <!--they-->
+                    <!--are sold in the USA. Hope that some day, my photos will be sold in every country of the-->
+                    <!--world! :D-->
+                    <!--</p>-->
+                    <!--</div>-->
                     <!--</div>-->
                 </div>
 
                 <div class="chart__form-container">
+                    <span class="chart__scroll-to-bottom" id="scroll-bottom">&darr;</span>
                     <form class="chart__form" id="chart-form">
                         <div class="chart__input-wrap">
                             <div class="chart__input">
+<<<<<<< HEAD
                                 <input placeholder="Your message" name="message" id="message-input">
                                 <!--<div class="chart__icons-container chart__icons-container_message">-->
                                     <!--<i class="chart__icon chart__icon_attach"></i>-->
                                     <!--<i class="chart__icon chart__icon_photo"></i>-->
                                     <!--<i class="chart__icon chart__icon_smile"></i>-->
                                 <!--</div>-->
+=======
+                                <input placeholder="Your message" autocomplete="off" id="message-input"
+                                       name="message"
+                                       class="emoji-init">
+                                <div class="chart__icons-container">
+                                    <i class="chart__icon chart__icon_attach"></i>
+                                    <i class="chart__icon chart__icon_photo"></i>
+                                    <i class="chart__icon chart__icon_smile"></i>
+                                </div>
+>>>>>>> 867b585f913dc250815f83a0c38169adeed4fb97
                             </div>
                             <button class="chart__input-button" type="submit">Send</button>
                         </div>
@@ -326,13 +343,15 @@
                 </div>
             </section>
         </div>
-</section>
+    </section>
+
 </div>
 
+
 <script src="web/js/xhrService.js"></script>
-<script src="web/js/menuObserver.js"></script>
-<script src="web/js/conversation-component.js"></script>
-<script src="web/js/friends-component.js"></script>
+<script src="web/js/Observer.js"></script>
+<script src="web/js/conversationComponent.js"></script>
+<script src="web/js/friendsComponent.js"></script>
 <script src="web/js/router.js"></script>
 <script src="web/js/navbar.js"></script>
 <script src="web/js/app.js"></script>
