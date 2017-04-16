@@ -1,6 +1,5 @@
 (function () {
 
-
     const app = window.app.getInstance();
     window.app.menuObserver.subscribe(toggleMenu);
 
