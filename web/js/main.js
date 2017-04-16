@@ -16,3 +16,7 @@
         });
     }
 })();
+
+$(document).ready(function() {
+    $("#message-input").emojioneArea();
+});

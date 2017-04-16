@@ -24,3 +24,7 @@
         return instance;
     };
 })();
+
+$(document).ready(function() {
+    $("#message-input").emojioneArea();
+});
