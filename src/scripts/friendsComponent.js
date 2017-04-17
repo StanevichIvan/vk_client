@@ -10,6 +10,7 @@
         };
         this.activeRequest = {};
         this.container = document.getElementById('messages-container');
+        this.searchContainer = document.getElementById('friends-search-container');
 
         this.render();
         this.destroy = () => {
@@ -17,6 +18,7 @@
                 this.activeRequest.cancel();
 
             this.container.innerHTML = '';
+            this.searchContainer.innerHTML = '';
         };
     }
 
@@ -30,12 +32,18 @@
 
     FriendsComponent.prototype.renderSearchBar = function () {
         let searchBar = document.createElement("div");
-        searchBar.innerHTML = `<form id="friend-search-form"><input type="text" id="friend-search" name="friend"> <button type="submit">Найти друга</button></form>`;
-        this.mountNode.prepend(searchBar);
+        searchBar.innerHTML = `
+                <div class="conversation__search">
+                <form id="friend-search-form" class="conversation__search-form"><input class="conversation__input"  type="text" id="friend-search" 
+                placeholder="Find a friend" name="friend">
+                </form>
+                    </div>
+`;
+        this.searchContainer.prepend(searchBar);
 
         document.getElementById("friend-search").addEventListener('keyup', (e) => {
             e.preventDefault();
-            if(this.activeRequest.cancel)
+            if (this.activeRequest.cancel)
                 this.activeRequest.cancel;
 
             vkService.searchFriends(this.activeRequest, e.target.value).then((res) => {
