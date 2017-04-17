@@ -618,8 +618,8 @@ body {
 
 .slider {
   overflow: hidden;
-  width: 600px;
-  height: 300px;
+  width: 900px;
+  height: 450px;
   margin: 0 auto; }
   .slider figure {
     position: relative;
@@ -628,12 +628,12 @@ body {
     text-align: left;
     font-size: 0; }
     .slider figure img {
-      width: 600px;
+      width: 900px;
       max-height: 100%;
       float: left; }
     .slider figure div {
-      width: 600px;
-      height: 300px;
+      width: 900px;
+      height: 450px;
       background-size: cover;
       background-position: center;
       max-height: 100%;

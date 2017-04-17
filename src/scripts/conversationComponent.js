@@ -31,7 +31,7 @@
             });
             this.messages.push(arr);
 
-            if (this.messagesContainer.scrollTop === this.messagesContainer.scrollHeight) {
+            if (this.messagesContainer.scrollTop + this.messagesContainer.clientHeight === this.messagesContainer.scrollHeight) {
                 this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
                 this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
             } else {
@@ -45,6 +45,7 @@
             const message = event.target.message.value;
             vkService.sendMessage(this.userID, message).then(() => {
                 this.messageInput.value = '';
+                document.getElementsByClassName('emojionearea-editor')[0].innerHTML = '';
             });
         }.bind(this);
 
@@ -66,7 +67,7 @@
 
         this.messagesContainer.addEventListener('scroll', (e)=> {
             let elem = e.target;
-            if(elem.scrollTop === elem.scrollHeight - 1000)
+            if(elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight)
                 this.scrollDownButton.classList.remove('show');
         });
 

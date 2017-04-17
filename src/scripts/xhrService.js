@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
-    const token = '';
+    const token = '685cdf596788aa39c8372e6acd23eea866b3a75e11b0e432e00b16f47f5b3f2767770104d1a1609e06a67';
     const baseURL = 'http://localhost:5000/';
     const userId = '145772800';
 
