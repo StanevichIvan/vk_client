@@ -9,13 +9,16 @@
         this.component.classList.add('slider');
         this.photos = [];
         this.animation;
+        this.id = id;
 
-        this.loadPhotos = (id) => {
-            vkService.getPhotos(this.activeRequest, id)
+        this.loadPhotos = () => {
+            vkService.getPhotos(this.activeRequest, this.id)
                 .then((res) => {
                     this.photos = res;
                     this.render(this.photos);
-                });
+                }).catch((err) => {
+                console.log(err)
+            });
         };
 
         this.loadPhotos();
@@ -42,16 +45,6 @@
             return figure;
         };
 
-        this.render = () => {
-            this.component.appendChild(this.createSlider());
-            this.mountNode.appendChild(this.component);
-        };
-
-        this.destroy = () => {
-            this.mountNode.removeChild(this.component);
-            this.mountNode.innerHTML = '';
-        };
-
         function calcAnimationProps(photos) {
 
             let keyframes = [];
@@ -76,6 +69,16 @@
             }
         }
     }
+
+    PhotosComponent.prototype.destroy = function () {
+        this.component.parentNode.removeChild(this.component);
+        this.mountNode.innerHTML = '';
+    };
+
+    PhotosComponent.prototype.render = function () {
+        this.component.appendChild(this.createSlider());
+        this.mountNode.appendChild(this.component);
+    };
 
     app.photosComponent = PhotosComponent;
 })();

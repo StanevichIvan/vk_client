@@ -7,7 +7,7 @@
     var instance;
 
     function init() {
-        const router = new window.app.router();
+        const router = window.app.router;
         const navbar = new window.app.navbarComponent(router);
 
         return {

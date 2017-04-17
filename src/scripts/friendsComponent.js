@@ -3,7 +3,7 @@
     const vkService = window.app.xhrService;
 
     function FriendsComponent() {
-        this.activeRequest = null;
+        this.activeRequest = {};
         this.mountNode = document.getElementById('messages-container');
         this.destroy = function () {
             this.mountNode.innerHTML = '';
@@ -11,20 +11,22 @@
         this.activeRequest = {};
         this.container = document.getElementById('messages-container');
         this.searchContainer = document.getElementById('friends-search-container');
-        // console.log( window.app.getInstance);
-        // this.router = window.app.getInstance().router;
 
         this.container.addEventListener('click', (e) => {
-            let id = e.target.dataset.id;
-            if (id) {
-                vkService.getPhotos(this.activeRequest, id);
+
+            if(e.target.classList.contains('conversation__message')) {
+                let id = e.target.dataset.id;
+                if (id) {
+                    vkService.getPhotos(this.activeRequest, id);
+                }
+
+                window.app.router.renderComponent('photos', id);
             }
-
-
-            // this.router.renderComponent('photos', id);
         });
 
         this.render();
+
+
         this.destroy = () => {
             if (this.activeRequest.cancel)
                 this.activeRequest.cancel();

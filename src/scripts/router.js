@@ -56,5 +56,5 @@
 
     }
 
-    app.router = Router;
+    app['router']= new Router();
 })();

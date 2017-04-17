@@ -190,10 +190,10 @@
                 resolve(json.map(item => new Photo(item)));
             };
 
-            tokenCancel['cancel'] = function () {
-                xhr.abort();
-                reject(new Error('Cancelled'));
-            };
+            // tokenCancel.cancel = function () {
+            //     xhr.abort();
+            //     reject(new Error('Cancelled'));
+            // };
 
             xhr.onerror = reject;
             xhr.send();
