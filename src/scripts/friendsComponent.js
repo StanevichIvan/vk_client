@@ -12,9 +12,8 @@
         this.container = document.getElementById('messages-container');
         this.searchContainer = document.getElementById('friends-search-container');
 
-        this.container.addEventListener('click', (e) => {
-
-            if(e.target.classList.contains('conversation__message')) {
+        this.containerSelect = (e) => {
+            if (e.target.classList.contains('conversation__message')) {
                 let id = e.target.dataset.id;
                 if (id) {
                     vkService.getPhotos(this.activeRequest, id);
@@ -22,15 +21,17 @@
 
                 window.app.router.renderComponent('photos', id);
             }
-        });
+        };
 
         this.render();
 
+        this.container.addEventListener('click', this.containerSelect);
 
         this.destroy = () => {
             if (this.activeRequest.cancel)
                 this.activeRequest.cancel();
 
+            this.container.removeEventListener('click', this.containerSelect);
             this.container.innerHTML = '';
             this.searchContainer.innerHTML = '';
         };

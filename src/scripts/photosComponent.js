@@ -71,8 +71,9 @@
     }
 
     PhotosComponent.prototype.destroy = function () {
-        if(this.component.parentNode)
-            this.component.parentNode.removeChild(this.component);
+        // if (this.component.parentNode)
+        //     this.component.parentNode.removeChild(this.component);
+        //
         this.mountNode.innerHTML = '';
     };
 

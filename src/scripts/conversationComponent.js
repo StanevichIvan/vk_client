@@ -22,10 +22,11 @@
             let arr = [];
 
             messages.forEach((item) => {
-                let obj = {};
-                obj.out = 0;
-                obj.body = item[6];
-                obj.user = item[3];
+                let obj = {
+                    body: item[6],
+                    user: item[3],
+                    out: 0
+                };
                 obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
                 arr.push(new window.app.model.Dialog(obj));
             });
@@ -65,9 +66,9 @@
             this.scrollDownButton.classList.add('show');
         };
 
-        this.messagesContainer.addEventListener('scroll', (e)=> {
+        this.messagesContainer.addEventListener('scroll', (e) => {
             let elem = e.target;
-            if(elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight)
+            if (elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight)
                 this.scrollDownButton.classList.remove('show');
         });
 
