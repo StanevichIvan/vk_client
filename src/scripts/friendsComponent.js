@@ -11,6 +11,18 @@
         this.activeRequest = {};
         this.container = document.getElementById('messages-container');
         this.searchContainer = document.getElementById('friends-search-container');
+        // console.log( window.app.getInstance);
+        // this.router = window.app.getInstance().router;
+
+        this.container.addEventListener('click', (e) => {
+            let id = e.target.dataset.id;
+            if (id) {
+                vkService.getPhotos(this.activeRequest, id);
+            }
+
+
+            // this.router.renderComponent('photos', id);
+        });
 
         this.render();
         this.destroy = () => {
@@ -65,6 +77,7 @@
             return div;
 
         div.className += "conversation__message new";
+        div.dataset.id = user.id;
         div.innerHTML = `<img class="conversation__avatar" src="${user.photo}">
                             <div class="conversation__message-info">
                                 <h4 class="conversation__name">${user.firstName} ${user.lastName}</h4>

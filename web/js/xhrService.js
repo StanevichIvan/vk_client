@@ -2,6 +2,8 @@
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
     const token = '685cdf596788aa39c8372e6acd23eea866b3a75e11b0e432e00b16f47f5b3f2767770104d1a1609e06a67';
     const baseURL = 'http://localhost:5000/';
+    const userId = '145772800';
+
     let longPollCredentials = {
         server: '',
         key: '',
@@ -173,6 +175,31 @@
         });
     };
 
+    const getPhotos = function (tokenCancel, uid) {
+        let id = uid;
+        if(!id)
+            id = userId;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}method/photos.get?access_token=${token}&owner_id=${id}&album_id=wall`, true);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+
+                resolve(json.map(item => new Photo(item)));
+            };
+
+            tokenCancel['cancel'] = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
     const longPoll = function () {
 
         if (longPollCreated) return;
@@ -243,6 +270,12 @@
         this.user = item.user ? new User(item.user) : null;
     }
 
+    function Photo(obj) {
+        this.src = obj.src_big;
+        this.height = obj.height;
+        this.width = obj.width;
+    }
+
     if (!window.app)
         window.app = {};
 
@@ -257,6 +290,7 @@
         sendMessage: sendMessage,
         getFriends: getFriends,
         longPoll: longPoll,
-        searchFriends: searchFriends
+        searchFriends: searchFriends,
+        getPhotos: getPhotos
     };
 })();

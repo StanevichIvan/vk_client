@@ -58,7 +58,7 @@
             if (theUrl === '/') {
                 someFileName += 'web/index.html';
             }
-            if (theUrl === '/messages' || theUrl === '/friends') {
+            if (theUrl === '/messages' || theUrl === '/friends' || theUrl === '/photos') {
                 someFileName = 'web/index.html';
             }
             if (theUrl === '/stylesheets/app.css') {

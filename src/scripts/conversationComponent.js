@@ -61,8 +61,14 @@
         };
 
         this.showScrollToButtom = () => {
-            this.scrollDownButton.classList.toggle('show');
+            this.scrollDownButton.classList.add('show');
         };
+
+        this.messagesContainer.addEventListener('scroll', (e)=> {
+            let elem = e.target;
+            if(elem.scrollTop === elem.scrollHeight - 1000)
+                this.scrollDownButton.classList.remove('show');
+        });
 
         this.chartForm.addEventListener('submit', this.formSubmit);
         this.dialogsContainer.addEventListener('click', this.dialogSelect);

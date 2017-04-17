@@ -2,7 +2,8 @@
 
     var components = {
         dialogs: window.app.conversationComponent,
-        friends: window.app.friendsComponent
+        friends: window.app.friendsComponent,
+        photos: window.app.photosComponent
     };
 
     function Router() {
@@ -17,7 +18,7 @@
                 this.renderComponent('blank');
             }
         };
-        this.renderComponent = function (componentName) {
+        this.renderComponent = function (componentName, props) {
 
             if (this.prevComponent) {
                 this.prevComponent.destroy();
@@ -35,6 +36,13 @@
                     history.pushState({component: componentName}, componentName, componentName.toLowerCase());
                     this.prevComponent = friends;
                     break;
+
+                case 'photos':
+                    let photos = new components.photos(props);
+                    history.pushState({component: componentName}, componentName, componentName.toLowerCase());
+                    this.prevComponent = photos;
+                    break;
+
                 case 'blank':
                     this.prevComponent.destroy();
                     break;
