@@ -17,7 +17,7 @@
                     this.photos = res;
                     this.render(this.photos);
                 }).catch((err) => {
-                console.log(err)
+                console.log(err);
             });
         };
 

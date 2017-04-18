@@ -11,6 +11,7 @@
         this.activeRequest = {};
         this.container = document.getElementById('messages-container');
         this.searchContainer = document.getElementById('friends-search-container');
+        this.component = document.createElement('div');
 
         this.containerSelect = (e) => {
             if (e.target.classList.contains('conversation__message')) {
@@ -40,7 +41,7 @@
     FriendsComponent.prototype.render = function () {
 
         this.activeRequest = vkService.getFriends(this.activeRequest).then((res) => {
-            showFriends(res);
+            showFriends(res, this.component);
             this.renderSearchBar();
         });
     };
@@ -62,7 +63,7 @@
                 this.activeRequest.cancel;
 
             vkService.searchFriends(this.activeRequest, e.target.value).then((res) => {
-                showFriends(res);
+                showFriends(res, this.component);
             });
         });
     };
@@ -112,10 +113,12 @@
         return fragment;
     }
 
-    function showFriends(users) {
+    function showFriends(users , component) {
         if (users.length > 0) {
             document.getElementById('messages-container').innerHTML = '';
-            document.getElementById('messages-container').appendChild(createListFragment(users, createFriend));
+            component.innerHTML = '';
+            component.appendChild(createListFragment(users, createFriend));
+            document.getElementById('messages-container').appendChild(component);
         }
     }
 
