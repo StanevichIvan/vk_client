@@ -12,11 +12,18 @@
         this.messages = [];
         this.activeRequest = {};
         this.messages = [];
+        this.container = document.getElementById('router-outlet');
+        this.dialogsContainer = createDialogsColumn();
+        this.chatContainer = createChatContainer();
+
+        this.container.appendChild(this.dialogsContainer);
+        this.container.appendChild(this.chatContainer);
+
         this.messagesContainer = document.getElementById('messages-container');
-        this.dialogsContainer = document.getElementById('dialogs-container');
         this.chartForm = document.getElementById("chart-form");
         this.messageInput = document.getElementById("message-input");
         this.scrollDownButton = document.getElementById("scroll-bottom");
+
 
         this.newMessage = (messages) => {
             let arr = [];
@@ -82,7 +89,10 @@
             this.scrollDownButton.removeEventListener('click', this.scrollMessagesToBottom);
             this.dialogsContainer.innerHTML = '';
             this.messagesContainer.innerHTML = '';
+
+            this.container.innerHTML = '';
             window.app.messagesObserver.unsubscribeAll();
+
             if (this.activeRequest.cancel)
                 this.activeRequest.cancel();
         }.bind(this);
@@ -203,6 +213,7 @@
 
         div.dataset.id = dialog.user.id;
         div.className += "conversation__message new";
+        //language=HTML
         div.innerHTML = `<img class="conversation__avatar" src="${dialog.user.photo}">
                             <div class="conversation__message-info">
                                 <h4 class="conversation__name">${dialog.user.firstName} ${dialog.user.lastName}</h4>
@@ -218,6 +229,41 @@
                             </div>`;
         return div;
     };
+
+    function createDialogsColumn() {
+        let div = document.createElement('div');
+        div.classList.add('content__right-column');
+        //language=HTML
+        div.innerHTML = `
+            <div class="conversation">
+                <div id="friends-search-container"></div>
+                <div class="conversation__messages" id="dialogs-container"></div>
+            </div>`;
+
+        return div;
+    }
+
+    function createChatContainer() {
+        let div = document.createElement('div');
+        div.classList.add('content__text-container');
+        //language=HTML
+        div.innerHTML = `
+            <section class="chart">
+                <div class="chart__messages" id="messages-container"></div>
+
+                <span class="chart__scroll-to-bottom" id="scroll-bottom">&darr;</span>
+                <form class="chart__form" id="chart-form">
+                    <div class="chart__input-wrap">
+                        <div class="chart__input">
+                            <input placeholder="Your message" name="message" id="message-input">
+                        </div>
+                        <button class="chart__input-button" type="submit">Send</button>
+                    </div>
+                    <img src="images/photo.png">
+                </form>
+            </section>`;
+        return div;
+    }
 
     app.conversationComponent = Conversations;
 })();
