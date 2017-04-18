@@ -2,23 +2,25 @@
 
     const vkService = window.app.xhrService;
 
-    function PhotosComponent(id) {
+    function PhotosComponent(obj) {
         this.activeRequest = {};
-        this.mountNode = document.getElementById('messages-container');
+        this.mountNode = document.getElementById('router-outlet');
         this.component = document.createElement('div');
         this.component.classList.add('slider');
         this.photos = [];
         this.animation;
-        this.id = id;
+        this.userId = obj.userId;
+        this.albumId = obj.albumId;
 
         this.loadPhotos = () => {
-            vkService.getPhotos(this.activeRequest, this.id)
+            vkService.getAlbumPhotos(this.activeRequest, this.userId, this.albumId)
                 .then((res) => {
                     this.photos = res;
                     this.render(this.photos);
-                }).catch((err) => {
-                console.log(err);
-            });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         };
 
         this.loadPhotos();
@@ -28,10 +30,6 @@
             let animation = calcAnimationProps(this.photos);
 
             this.photos.forEach((item) => {
-                // const img = document.createElement('img');
-                // img.src = item.src;
-                // fragment.appendChild(img);
-                //
                 const img = document.createElement('div');
                 img.style.backgroundImage = `url('${item.src}')`;
                 fragment.appendChild(img);
@@ -81,6 +79,41 @@
         this.component.appendChild(this.createSlider());
         this.mountNode.appendChild(this.component);
     };
+
+    function createDialogsColumn() {
+        let div = document.createElement('div');
+        div.classList.add('content__right-column');
+        //language=HTML
+        div.innerHTML = `
+            <div class="conversation">
+                <div id="friends-search-container"></div>
+                <div class="conversation__messages" id="dialogs-container"></div>
+            </div>`;
+
+        return div;
+    }
+
+    function createChatContainer() {
+        let div = document.createElement('div');
+        div.classList.add('content__text-container');
+        //language=HTML
+        div.innerHTML = `
+            <section class="chart">
+                <div class="chart__messages" id="messages-container"></div>
+
+                <span class="chart__scroll-to-bottom" id="scroll-bottom">&darr;</span>
+                <form class="chart__form" id="chart-form">
+                    <div class="chart__input-wrap">
+                        <div class="chart__input">
+                            <input placeholder="Your message" name="message" id="message-input">
+                        </div>
+                        <button class="chart__input-button" type="submit">Send</button>
+                    </div>
+                    <img src="images/photo.png">
+                </form>
+            </section>`;
+        return div;
+    }
 
     app.photosComponent = PhotosComponent;
 })();
