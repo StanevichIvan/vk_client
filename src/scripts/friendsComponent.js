@@ -4,14 +4,22 @@
 
     function FriendsComponent() {
         this.activeRequest = {};
-        this.mountNode = document.getElementById('messages-container');
-        this.destroy = function () {
-            this.mountNode.innerHTML = '';
-        };
-        this.activeRequest = {};
+
+        this.wrap = document.getElementById('router-outlet');
+        this.dialogsContainer = createDialogsColumn();
+        this.chatContainer = createChatContainer();
+        this.wrap.appendChild(this.dialogsContainer);
+        this.wrap.appendChild(this.chatContainer);
+
         this.container = document.getElementById('messages-container');
         this.searchContainer = document.getElementById('friends-search-container');
         this.component = document.createElement('div');
+
+        this.destroy = function () {
+            // this.container.innerHTML = '';
+            this.wrap.innerHTML= '';
+        };
+        this.activeRequest = {};
 
         this.containerSelect = (e) => {
             if (e.target.classList.contains('conversation__message')) {
@@ -20,7 +28,7 @@
                     vkService.getPhotos(this.activeRequest, id);
                 }
 
-                window.app.router.renderComponent('photos', id);
+                window.app.router.renderComponent('albums', id);
             }
         };
 
@@ -35,11 +43,11 @@
             this.container.removeEventListener('click', this.containerSelect);
             this.container.innerHTML = '';
             this.searchContainer.innerHTML = '';
+            this.wrap.innerHTML = '';
         };
     }
 
     FriendsComponent.prototype.render = function () {
-
         this.activeRequest = vkService.getFriends(this.activeRequest).then((res) => {
             showFriends(res, this.component);
             this.renderSearchBar();
@@ -53,8 +61,7 @@
                 <form id="friend-search-form" class="conversation__search-form"><input class="conversation__input"  type="text" id="friend-search" 
                 placeholder="Find a friend" name="friend">
                 </form>
-                    </div>
-`;
+                    </div>`;
         this.searchContainer.prepend(searchBar);
 
         document.getElementById("friend-search").addEventListener('keyup', (e) => {
@@ -113,13 +120,37 @@
         return fragment;
     }
 
-    function showFriends(users , component) {
+    function showFriends(users, component) {
         if (users.length > 0) {
             document.getElementById('messages-container').innerHTML = '';
             component.innerHTML = '';
             component.appendChild(createListFragment(users, createFriend));
             document.getElementById('messages-container').appendChild(component);
         }
+    }
+
+    function createDialogsColumn() {
+        let div = document.createElement('div');
+        div.classList.add('content__right-column');
+        //language=HTML
+        div.innerHTML = `
+            <div class="conversation">
+                <div id="friends-search-container"></div>
+                <div class="conversation__messages" id="dialogs-container"></div>
+            </div>`;
+
+        return div;
+    }
+
+    function createChatContainer() {
+        let div = document.createElement('div');
+        div.classList.add('content__text-container');
+        //language=HTML
+        div.innerHTML = `
+            <section class="chart">
+                <div class="chart__messages" id="messages-container"></div>
+            </section>`;
+        return div;
     }
 
     app.friendsComponent = FriendsComponent;
