@@ -3,7 +3,8 @@
     var components = {
         dialogs: window.app.conversationComponent,
         friends: window.app.friendsComponent,
-        photos: window.app.photosComponent
+        photos: window.app.photosComponent,
+        albums: window.app.albumsComponent
     };
 
     function Router() {
@@ -43,6 +44,12 @@
                     this.prevComponent = photos;
                     break;
 
+                case 'albums':
+                    let albums = new components.albums(props);
+                    history.pushState({component: componentName}, componentName, componentName.toLowerCase());
+                    this.prevComponent = albums;
+                    break;
+
                 case 'blank':
                     this.prevComponent.destroy();
                     break;
@@ -56,5 +63,5 @@
 
     }
 
-    app['router']= new Router();
+    app['router'] = new Router();
 })();
