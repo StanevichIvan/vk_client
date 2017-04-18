@@ -14,11 +14,6 @@
         this.container = document.getElementById('messages-container');
         this.searchContainer = document.getElementById('friends-search-container');
         this.component = document.createElement('div');
-
-        this.destroy = function () {
-            // this.container.innerHTML = '';
-            this.wrap.innerHTML= '';
-        };
         this.activeRequest = {};
 
         this.containerSelect = (e) => {
