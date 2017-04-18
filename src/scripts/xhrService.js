@@ -177,7 +177,7 @@
 
     const getPhotos = function (tokenCancel, uid) {
         let id = uid;
-        if(!id)
+        if (!id)
             id = userId;
 
         let xhr = new XMLHttpRequest();
@@ -190,10 +190,65 @@
                 resolve(json.map(item => new Photo(item)));
             };
 
-            // tokenCancel.cancel = function () {
-            //     xhr.abort();
-            //     reject(new Error('Cancelled'));
-            // };
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
+    /**
+     *
+     * @param tokenCancel
+     * @param uid
+     * @returns {Promise}
+     */
+    const getAlbums = function (tokenCancel, uid) {
+        let id = uid;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}method/photos.getAlbums?access_token=${token}&owner_id=${id}&need_covers=1`, true);
+
+        return new Promise(function(resolve , reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json.map(item => new Album(item)));
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
+    /**
+     * Load album photos
+     * @param tokenCancel
+     * @param uid
+     * @param albumId
+     * @returns {Promise}
+     */
+    const getAlbumPhotos = function (tokenCancel, uid, albumId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}method/photos.get?access_token=${token}&owner_id=${uid}&album_id=${albumId}`, true);
+
+        return new Promise(function(resolve , reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json.map(item => new Photo(item)));
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
 
             xhr.onerror = reject;
             xhr.send();
@@ -271,9 +326,16 @@
     }
 
     function Photo(obj) {
-        this.src = obj.src_big;
-        this.height = obj.height;
-        this.width = obj.width;
+        this.src = obj.src_big || '';
+        this.height = obj.height || 0;
+        this.width = obj.width || 0;
+    }
+
+    function Album(obj) {
+        this.title = obj.title || '';
+        this.id = obj.aid || '';
+        this.thumb_id = obj.thumb_id || '';
+        this.coverSrc = obj.thumb_src || '';
     }
 
     if (!window.app)
@@ -291,6 +353,8 @@
         getFriends: getFriends,
         longPoll: longPoll,
         searchFriends: searchFriends,
-        getPhotos: getPhotos
+        getPhotos: getPhotos,
+        getAlbums : getAlbums,
+        getAlbumPhotos : getAlbumPhotos
     };
 })();
