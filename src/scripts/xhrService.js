@@ -1,6 +1,7 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
-    const token = '673f62c9160057684d98f2d92f5a09083d8238707b43e8000a7713d3c012b49da03c9dd37b773043d9f68';
+    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages&response_type=token'
+    const token = '3bd9f0179e22383382690c79e80dbed26c74f9de9b0d96d2981cb8152059afe9321a9dbcf629e4a3b06d';
     const baseURL = 'http://localhost:5000/';
     const userId = '145772800';
 
