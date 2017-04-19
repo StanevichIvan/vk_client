@@ -8,7 +8,7 @@
         this.component = document.createElement('div');
         this.component.classList.add('slider');
         this.photos = [];
-        this.animation;
+        this.player;
         this.userId = obj.userId;
         this.albumId = obj.albumId;
 
@@ -36,12 +36,15 @@
             });
             let figure = document.createElement('figure');
 
-            figure.animate(animation.keyframes, animation.options);
+            this.player = figure.animate(animation.keyframes, animation.options);
             figure.appendChild(fragment);
             figure.style.width = animation.containerWidth;
 
+            this.createControls();
+
             return figure;
         };
+
 
         function calcAnimationProps(photos) {
 
@@ -78,6 +81,34 @@
     PhotosComponent.prototype.render = function () {
         this.component.appendChild(this.createSlider());
         this.mountNode.appendChild(this.component);
+    };
+
+    PhotosComponent.prototype.createControls = function () {
+        let controls = document.createElement('div');
+
+        let button = document.createElement('button');
+        button.innerHTML = 'pause';
+        button.addEventListener('click', () => {
+            this.player.pause();
+
+        });
+
+        let button2 = document.createElement('button');
+        button2.innerHTML = 'play';
+        button2.addEventListener('click', () => {
+            this.player.play();
+        });
+
+        let button3 = document.createElement('button');
+        button3.innerHTML = 'stop';
+        button3.addEventListener('click', () => {
+            this.player.cancel();
+        });
+
+        controls.appendChild(button);
+        controls.appendChild(button2);
+        controls.appendChild(button3);
+        this.mountNode.appendChild(controls);
     };
 
     function createDialogsColumn() {
