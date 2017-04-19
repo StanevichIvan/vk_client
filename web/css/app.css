@@ -638,10 +638,11 @@ body {
     .slider figure div {
       width: 900px;
       height: 450px;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
       max-height: 100%;
-      float: left; }
+      float: left;
+      background-repeat: no-repeat; }
   .slider__slider-controls {
     position: absolute;
     bottom: 50px;
