@@ -14,7 +14,7 @@
         // listen nav controls
         window.onpopstate = history.onpushstate = (e) => {
             if (e.state !== null) {
-                this.renderComponent(e.state.component);
+                this.renderComponent(e.state.component, e.state.props);
             } else {
                 this.renderComponent('blank');
             }
@@ -46,7 +46,7 @@
 
                 case 'albums':
                     let albums = new components.albums(props);
-                    history.pushState({component: componentName}, componentName, componentName.toLowerCase());
+                    history.pushState({component: componentName, props: props}, componentName, componentName.toLowerCase());
                     this.prevComponent = albums;
                     break;
 
