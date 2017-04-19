@@ -4,7 +4,8 @@
         dialogs: window.app.conversationComponent,
         friends: window.app.friendsComponent,
         photos: window.app.photosComponent,
-        albums: window.app.albumsComponent
+        albums: window.app.albumsComponent,
+        news: window.app.newsComponent
     };
 
     function Router() {
@@ -48,6 +49,12 @@
                     let albums = new components.albums(props);
                     history.pushState({component: componentName, props: props}, componentName, componentName.toLowerCase());
                     this.prevComponent = albums;
+                    break;
+
+                case 'news':
+                    let news = new components.news(props);
+                    history.pushState({component: componentName, props: props}, componentName, componentName.toLowerCase());
+                    this.prevComponent = news;
                     break;
 
                 case 'blank':

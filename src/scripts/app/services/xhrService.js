@@ -1,6 +1,6 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
-    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages&response_type=token'
+    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,wall,photos&response_type=token'
     const token = '';
     const baseURL = 'http://localhost:5000/';
     const userId = '145772800';
@@ -256,6 +256,27 @@
         });
     };
 
+    const getNews = function (tokenCancel) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}method/newsfeed.get?access_token=${token}`, true);
+
+        return new Promise(function(resolve , reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                console.log(json);
+                resolve(json);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
     const longPoll = function () {
 
         if (longPollCreated) return;
@@ -356,6 +377,7 @@
         searchFriends: searchFriends,
         getPhotos: getPhotos,
         getAlbums : getAlbums,
-        getAlbumPhotos : getAlbumPhotos
+        getAlbumPhotos : getAlbumPhotos,
+        getNews: getNews
     };
 })();
