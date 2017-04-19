@@ -1,7 +1,7 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages&response_type=token'
-    const token = '';
+    const token = '33015462410616527c7765cbab9dffd5a1319c3feb24f7a9162a197f24f4b5ae8a3455b02b5d7c7b5f7f0';
     const baseURL = 'http://localhost:5000/';
     const userId = '145772800';
 

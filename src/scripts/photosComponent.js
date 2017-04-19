@@ -48,6 +48,11 @@
         };
 
 
+        /**
+         * Create properties of slider animation
+         * @param photos
+         * @returns {{keyframes: Array, options: {duration: number, iterations: Number}, containerWidth: string, imgWidth: number, slideDuration: number}}
+         */
         function calcAnimationProps(photos) {
 
             let keyframes = [];
@@ -85,7 +90,12 @@
         this.mountNode.appendChild(this.component);
     };
 
+    /**
+     * Slider controls
+     */
     PhotosComponent.prototype.createControls = function () {
+        const fragment = document.createDocumentFragment();
+
         let controls = document.createElement('div');
         controls.classList.add('slider__slider-controls');
 
@@ -94,18 +104,21 @@
         button.addEventListener('click', () => {
             this.player.pause();
         });
+        fragment.appendChild(button);
 
         let button2 = document.createElement('button');
         button2.innerHTML = 'play';
         button2.addEventListener('click', () => {
             this.player.play();
         });
+        fragment.appendChild(button2);
 
         let button3 = document.createElement('button');
         button3.innerHTML = 'stop';
         button3.addEventListener('click', () => {
             this.player.cancel();
         });
+        fragment.appendChild(button3);
 
         let btnPrev = document.createElement('button');
         btnPrev.innerHTML = 'Prev';
@@ -120,6 +133,7 @@
                 this.player.currentTime = ((slideNumber - 1) * this.animationProps.slideDuration) + this.animationProps.slideDuration/2;
             }
         });
+        fragment.appendChild(btnPrev);
 
         let btnNext = document.createElement('button');
         btnNext.innerHTML = 'Next';
@@ -134,13 +148,9 @@
                 this.player.currentTime = ((slideNumber + 1) * this.animationProps.slideDuration)+ this.animationProps.slideDuration/2;
             }
         });
+        fragment.appendChild(btnNext);
 
-        controls.appendChild(btnPrev);
-        controls.appendChild(button);
-        controls.appendChild(button2);
-        controls.appendChild(button3);
-        controls.appendChild(btnNext);
-
+        controls.appendChild(fragment);
         this.mountNode.appendChild(controls);
     };
 
