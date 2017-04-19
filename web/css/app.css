@@ -640,9 +640,9 @@ body {
       height: 450px;
       background-size: contain;
       background-position: center;
+      background-repeat: no-repeat;
       max-height: 100%;
-      float: left;
-      background-repeat: no-repeat; }
+      float: left; }
   .slider__slider-controls {
     position: absolute;
     bottom: 50px;
