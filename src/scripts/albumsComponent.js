@@ -6,7 +6,6 @@
 
         this.activeRequest = {};
         this.container = document.getElementById('router-outlet');
-
         this.component = document.createElement('div');
         this.component.classList.add('albums');
         this.albums = [];
@@ -27,6 +26,7 @@
 
     AlbumsComponent.prototype.destroy = function () {
         this.component.innerHTML = '';
+        this.container.innerHTML = '';
     };
 
     AlbumsComponent.prototype.render = function () {

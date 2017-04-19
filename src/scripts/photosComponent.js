@@ -5,10 +5,12 @@
     function PhotosComponent(obj) {
         this.activeRequest = {};
         this.mountNode = document.getElementById('router-outlet');
+        this.mountNode.classList.add('router-outlet_grey-bg');
         this.component = document.createElement('div');
         this.component.classList.add('slider');
         this.photos = [];
         this.player;
+        this.animationProps;
         this.userId = obj.userId;
         this.albumId = obj.albumId;
 
@@ -27,7 +29,7 @@
 
         this.createSlider = () => {
             let fragment = document.createDocumentFragment();
-            let animation = calcAnimationProps(this.photos);
+            let animation = this.animationProps = calcAnimationProps(this.photos);
 
             this.photos.forEach((item) => {
                 const img = document.createElement('div');
@@ -49,16 +51,17 @@
         function calcAnimationProps(photos) {
 
             let keyframes = [];
-            let startTransform = 0;
+            let transform = 0;
             let transformStep = 100 / photos.length;
+            let slideDuration = 2000;
             let duration = 0;
             let width = 0;
 
             photos.forEach((item) => {
-                keyframes.push({transform: `translate(${startTransform}%)`});
-                keyframes.push({transform: `translate(${startTransform}%)`});
-                startTransform -= transformStep;
-                duration += 2000;
+                keyframes.push({transform: `translate(${transform}%)`});
+                keyframes.push({transform: `translate(${transform}%)`});
+                transform -= transformStep;
+                duration += slideDuration;
                 width += 100;
             });
 
@@ -66,16 +69,15 @@
                 keyframes: keyframes,
                 options: {duration: duration, iterations: Infinity},
                 containerWidth: `${width}%`,
-                imgWidth: transformStep
+                imgWidth: transformStep,
+                slideDuration: slideDuration
             }
         }
     }
 
     PhotosComponent.prototype.destroy = function () {
-        // if (this.component.parentNode)
-        //     this.component.parentNode.removeChild(this.component);
-        //
         this.mountNode.innerHTML = '';
+        this.mountNode.classList.remove('router-outlet_grey-bg');
     };
 
     PhotosComponent.prototype.render = function () {
@@ -85,12 +87,12 @@
 
     PhotosComponent.prototype.createControls = function () {
         let controls = document.createElement('div');
+        controls.classList.add('slider__slider-controls');
 
         let button = document.createElement('button');
         button.innerHTML = 'pause';
         button.addEventListener('click', () => {
             this.player.pause();
-
         });
 
         let button2 = document.createElement('button');
@@ -105,9 +107,40 @@
             this.player.cancel();
         });
 
+        let btnPrev = document.createElement('button');
+        btnPrev.innerHTML = 'Prev';
+        btnPrev.classList.add('slider__btn');
+        btnPrev.classList.add('slider__btn_prev');
+        btnPrev.addEventListener('click', () => {
+            this.player.pause();
+            let slideNumber = Math.floor(this.player.currentTime.toFixed(0) / this.animationProps.slideDuration);
+            if (slideNumber <= 0) {
+                this.player.currentTime = this.animationProps.slideDuration/2;
+            } else {
+                this.player.currentTime = ((slideNumber - 1) * this.animationProps.slideDuration) + this.animationProps.slideDuration/2;
+            }
+        });
+
+        let btnNext = document.createElement('button');
+        btnNext.innerHTML = 'Next';
+        btnNext.classList.add('slider__btn');
+        btnNext.classList.add('slider__btn_next');
+        btnNext.addEventListener('click', () => {
+            this.player.pause();
+            let slideNumber = Math.floor(this.player.currentTime.toFixed(0) / this.animationProps.slideDuration);
+            if (slideNumber < 0) {
+                this.player.currentTime = this.animationProps.slideDuration/2;
+            } else {
+                this.player.currentTime = ((slideNumber + 1) * this.animationProps.slideDuration)+ this.animationProps.slideDuration/2;
+            }
+        });
+
+        controls.appendChild(btnPrev);
         controls.appendChild(button);
         controls.appendChild(button2);
         controls.appendChild(button3);
+        controls.appendChild(btnNext);
+
         this.mountNode.appendChild(controls);
     };
 

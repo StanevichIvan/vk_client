@@ -619,8 +619,12 @@ body {
 .slider {
   overflow: hidden;
   width: 900px;
-  height: 450px;
-  margin: 0 auto; }
+  height: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  position: relative; }
   .slider figure {
     position: relative;
     margin: 0;
@@ -638,15 +642,31 @@ body {
       background-position: center;
       max-height: 100%;
       float: left; }
+  .slider__slider-controls {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 100;
+    text-align: center;
+    width: 100%; }
+  .slider__btn {
+    position: absolute; }
+    .slider__btn_prev {
+      left: 20px; }
+    .slider__btn_next {
+      right: 20px; }
 
 .albums {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between; }
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px; }
   .albums__tumb {
+    margin: 15px;
     width: 270px;
     height: 170px;
-    margin-top: 20px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -659,4 +679,7 @@ body {
 
 .router-outlet {
   width: 100%;
-  display: flex; }
+  display: flex;
+  position: relative; }
+  .router-outlet_grey-bg {
+    background: grey; }

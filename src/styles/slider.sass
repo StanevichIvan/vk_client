@@ -1,8 +1,12 @@
 .slider
   overflow: hidden
   width: 900px
-  height: 450px
+  height: 100%
   margin: 0 auto
+  flex-direction: column
+  justify-content: center
+  display: flex
+  position: relative
 
   figure
     position: relative
@@ -23,4 +27,18 @@
       max-height: 100%
       float: left
 
-  &__slider-item
+  &__slider-controls
+    position: absolute
+    bottom: 50px
+    left: 50%
+    transform: translate(-50%, 0)
+    z-index: 100
+    text-align: center
+    width: 100%
+
+  &__btn
+    position: absolute
+    &_prev
+      left: 20px
+    &_next
+      right: 20px
