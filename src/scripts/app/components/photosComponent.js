@@ -9,8 +9,8 @@
         this.component = document.createElement('div');
         this.component.classList.add('slider');
         this.photos = [];
-        this.player;
-        this.animationProps;
+        this.player = null;
+        this.animationProps = null;
         this.userId = obj.userId;
         this.albumId = obj.albumId;
 
@@ -71,12 +71,12 @@
             });
 
             return {
-                keyframes: keyframes,
-                options: {duration: duration, iterations: Infinity},
-                containerWidth: `${width}%`,
-                imgWidth: transformStep,
-                slideDuration: slideDuration
-            }
+                keyframes       : keyframes,
+                options         : {duration: duration, iterations: Infinity},
+                containerWidth  : `${width}%`,
+                imgWidth        : transformStep,
+                slideDuration   : slideDuration
+            };
         }
     }
 

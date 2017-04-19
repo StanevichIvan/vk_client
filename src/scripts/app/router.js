@@ -9,7 +9,7 @@
 
     function Router() {
 
-        this.prevComponent;
+        this.prevComponent= {};
 
         // listen nav controls
         window.onpopstate = history.onpushstate = (e) => {
@@ -21,7 +21,7 @@
         };
         this.renderComponent = function (componentName, props) {
 
-            if (this.prevComponent) {
+            if (this.prevComponent.destroy) {
                 this.prevComponent.destroy();
             }
 
@@ -63,5 +63,5 @@
 
     }
 
-    app['router'] = new Router();
+    app.router = new Router();
 })();

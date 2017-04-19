@@ -62,7 +62,7 @@
         document.getElementById("friend-search").addEventListener('keyup', (e) => {
             e.preventDefault();
             if (this.activeRequest.cancel)
-                this.activeRequest.cancel;
+                this.activeRequest.cancel();
 
             vkService.searchFriends(this.activeRequest, e.target.value).then((res) => {
                 showFriends(res, this.component);

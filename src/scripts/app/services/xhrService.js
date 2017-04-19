@@ -1,7 +1,7 @@
 (function () {
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages&response_type=token'
-    const token = '33015462410616527c7765cbab9dffd5a1319c3feb24f7a9162a197f24f4b5ae8a3455b02b5d7c7b5f7f0';
+    const token = '';
     const baseURL = 'http://localhost:5000/';
     const userId = '145772800';
 
@@ -20,7 +20,7 @@
     const getDialogs = function (tokenCancel) {
         let dialogs;
 
-        let xhr = new XMLHttpRequest;
+        let xhr = new XMLHttpRequest();
         xhr.open("GET", baseURL + 'method/messages.getDialogs?access_token=' + token);
 
         return new Promise(function (resolve, reject) {
@@ -63,7 +63,7 @@
                 userData.forEach((user) => {
                     if (item.uid === user.uid) {
                         let resObj = Object.assign({}, item);
-                        resObj['user'] = user;
+                        resObj.user = user;
                         diaolgsBundle.push(new Dialog(resObj));
                     }
                 });
@@ -79,7 +79,7 @@
      * @returns {Promise}
      */
     const getUsersProfiles = function (tokenCancel, listOfIds) {
-        let xhr = new XMLHttpRequest;
+        let xhr = new XMLHttpRequest();
         xhr.open("GET", baseURL + 'method/users.get?access_token=' + token + "&fields=" + "photo_50" + "&user_ids=" + listOfIds);
 
         return new Promise(function (resolve, reject) {
@@ -103,7 +103,7 @@
      */
     const getMessages = function (tokenCancel, uid) {
 
-        let xhr = new XMLHttpRequest;
+        let xhr = new XMLHttpRequest();
         xhr.open("GET", `${baseURL}method/messages.getHistory?access_token=${token}&count=200&time_offset=0&user_id=${uid}`);
 
         return new Promise(function (resolve, reject) {
@@ -141,7 +141,7 @@
                 resolve(json.map(item => new User(item)));
             };
 
-            tokenCancel['cancel'] = function () {
+            tokenCancel.cancel = function () {
                 xhr.abort();
                 reject(new Error("Cancelled"));
             };
@@ -166,7 +166,7 @@
                 }));
             };
 
-            tokenCancel['cancel'] = function () {
+            tokenCancel.cancel = function () {
                 xhr.abort();
                 reject(new Error('Cancelled'));
             };

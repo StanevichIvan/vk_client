@@ -14,8 +14,9 @@ const gulp = require('gulp'),
     merge = require('merge-stream'),
     spritesmith = require('gulp.spritesmith'),
     htmlmin = require('gulp-htmlmin'),
-    fileinclude = require('gulp-file-include'),
-    babel = require('gulp-babel');
+    babel = require('gulp-babel'),
+    jshint = require('gulp-jshint'),
+    fileinclude = require('gulp-file-include');
 
 //html
 gulp.task('minify', function () {
@@ -47,7 +48,6 @@ gulp.task('scripts', function () {
 // Images
 gulp.task('images', function () {
     return gulp.src('src/images/**/*.*')
-    // .pipe(imagemin())
         .pipe(gulp.dest('web/images/'));
 });
 
@@ -90,16 +90,12 @@ gulp.task('watch', function () {
 
 });
 
-//for include
-// gulp.task('fileinclude', function () {
-//     gulp.src('src/*.html')
-//         .pipe(fileinclude({
-//             prefix: '@@',
-//             basepath: '@file'
-//         }))
-//         .pipe(gulp.dest('./'));
-// });
+gulp.task('jshint', function () {
+    gulp.src(['src/scripts/app/**/*.js'])
+        .pipe(jshint({"esversion": 6}))
+        .pipe(jshint.reporter('default'));
+});
 
 // Default
 gulp.task('default', ['scripts', 'images', 'sprite', 'styles', 'fonts', 'watch', 'minify']);
-gulp.task('build', ['scripts', 'images', 'sprite', 'styles', 'fonts', 'minify']);
+gulp.task('build', ['scripts', 'images', 'sprite', 'styles', 'fonts', 'minify', 'jshint']);
