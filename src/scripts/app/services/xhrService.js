@@ -1,5 +1,4 @@
 (function () {
-    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,offline&response_type=token'
     // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,wall,photos&response_type=token'
     const token = '';
     const baseURL = 'http://localhost:5000/';
