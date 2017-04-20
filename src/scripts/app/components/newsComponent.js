@@ -1,6 +1,7 @@
 (function () {
 
     const vkService = window.app.xhrService;
+    const chatUsersComponent = window.app.chatUsersComponent;
 
     function NewsComponent(obj) {
         this.activeRequest = {};
@@ -28,6 +29,7 @@
         container.classList.add('news');
         container.appendChild(createNewsList(news));
         this.mountNode.appendChild(container);
+
     };
 
     function createNewsList(news) {

@@ -23,7 +23,7 @@
         this.chartForm = document.getElementById("chart-form");
         this.messageInput = document.getElementById("message-input");
         this.scrollDownButton = document.getElementById("scroll-bottom");
-
+        this.chartUsers = new window.app.chatUsersComponent({mount: document.getElementById('friends-search-container')});
 
         this.newMessage = (messages) => {
             let arr = [];
