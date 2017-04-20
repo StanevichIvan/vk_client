@@ -290,7 +290,7 @@
     const getVideo = function (tokenCancel, id, ownerID) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${BASE_URL}method/video.get?access_token=${TOKEN}&owner_id=${ownerID}`, true);
+        xhr.open('GET', `${BASE_URL}method/video.get?access_token=${TOKEN}&videos=${id}&owner_id=${ownerID}`, true);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
