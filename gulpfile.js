@@ -97,5 +97,5 @@ gulp.task('jshint', function () {
 });
 
 // Default
-gulp.task('default', ['scripts', 'images', 'sprite', 'styles', 'fonts', 'watch', 'minify']);
+gulp.task('default', ['scripts', 'images', 'sprite', 'styles', 'fonts', 'watch', 'minify', 'jshint']);
 gulp.task('build', ['scripts', 'images', 'sprite', 'styles', 'fonts', 'minify', 'jshint']);
