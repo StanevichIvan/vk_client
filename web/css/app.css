@@ -684,3 +684,13 @@ body {
   position: relative; }
   .router-outlet_grey-bg {
     background: grey; }
+
+.news {
+  width: 100%;
+  max-height: calc(100vh - 70px);
+  overflow-y: scroll; }
+  .news__item {
+    width: 85%;
+    margin: 10px auto;
+    padding: 15px;
+    border: 1px solid #7d7d7d; }

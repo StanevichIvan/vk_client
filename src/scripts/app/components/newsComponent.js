@@ -24,19 +24,95 @@
     };
 
     NewsComponent.prototype.render = function (news) {
-        this.mountNode.appendChild(createNewsList(news));
+        const container = document.createElement('div');
+        container.classList.add('news');
+        container.appendChild(createNewsList(news));
+        this.mountNode.appendChild(container);
     };
 
     function createNewsList(news) {
 
-        let div = document.createElement('ul');
+        let fragment = document.createDocumentFragment();
 
-        for (let i = 0; i < news.items.length; i++) {
+        for (let i = 0; i < news.length; i++) {
 
-            let li = document.createElement('li');
-            li.innerhtml = '123123';// `${news.items[i].text}`;
-            div.appendChild(li);
+            let item = news[i];
+            let div = document.createElement('div');
+            div.classList.add('news__item');
+            let element;
+            switch (item.type) {
+                case 'event':
+                    element = createEvent(item);
+                    break;
+
+                case 'post':
+                    element = createPost(item);
+                    break;
+
+                case 'wall_photo':
+                    element = createWallPhotos(item);
+                    break;
+
+                case 'video':
+                    element = createVideo(item);
+                    break;
+            }
+
+            if (element)
+                div.appendChild(element);
+
+            fragment.appendChild(div);
         }
+
+        return fragment;
+    }
+
+    function createEvent(obj) {
+        let div = document.createElement('div');
+        //language=HTML
+        div.innerHTML = `<h3>${obj.name}</h3>
+<img src="${obj.img}">            
+        `;
+
+        return div;
+    }
+
+    function createPost(obj) {
+
+        let div = document.createElement('div');
+        div.innerHTML = `<h3>${obj.name}</h3>`;
+        obj.photos.forEach((item) => {
+            let img = document.createElement('img');
+            img.src = item;
+            div.appendChild(img);
+        });
+
+        return div;
+    }
+
+    function createWallPhotos(obj) {
+        let div = document.createElement('div');
+
+        obj.photos.forEach((item) => {
+            let img = document.createElement('img');
+            img.src = item;
+            div.appendChild(img);
+        });
+
+        return div;
+    }
+
+    function createVideo(obj) {
+
+        let div = document.createElement('div');
+
+        obj.videos.forEach((item) => {
+            let img = document.createElement('img');
+            img.src = item.image;
+            div.appendChild(img);
+            div.innerHTML += item.title;
+            vkService.getVideo({}, item.id, item.ownerID);
+        });
 
         return div;
     }

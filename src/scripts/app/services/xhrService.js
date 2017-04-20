@@ -1,7 +1,7 @@
 (function () {
-    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,wall,photos&response_type=token'
-    const token = '';
-    const baseURL = 'http://localhost:5000/';
+    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,wall,video,photos&response_type=token'
+    const TOKEN = '';
+    const BASE_URL = 'http://localhost:5000/';
     const userId = '145772800';
 
     let longPollCredentials = {
@@ -9,6 +9,16 @@
         key: '',
         ts: ''
     };
+
+    let Dialog = app.model.Dialog,
+        User = app.model.User,
+        Video = app.model.Video,
+        WallPhoto = app.model.WallPhoto,
+        Post = app.model.Post,
+        Event = app.model.Event,
+        Album = app.model.Album,
+        News = app.model.News,
+        Photo = app.model.Photo;
 
     let longPollCreated = false;
 
@@ -20,7 +30,7 @@
         let dialogs;
 
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", baseURL + 'method/messages.getDialogs?access_token=' + token);
+        xhr.open("GET", BASE_URL + 'method/messages.getDialogs?access_token=' + TOKEN);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -79,7 +89,7 @@
      */
     const getUsersProfiles = function (tokenCancel, listOfIds) {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", baseURL + 'method/users.get?access_token=' + token + "&fields=" + "photo_50" + "&user_ids=" + listOfIds);
+        xhr.open("GET", BASE_URL + 'method/users.get?access_token=' + TOKEN + "&fields=" + "photo_50" + "&user_ids=" + listOfIds);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -103,7 +113,7 @@
     const getMessages = function (tokenCancel, uid) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `${baseURL}method/messages.getHistory?access_token=${token}&count=200&time_offset=0&user_id=${uid}`);
+        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&count=200&time_offset=0&user_id=${uid}`);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -127,12 +137,12 @@
      * @returns {*}
      */
     function sendMessage(uid, message) {
-        return fetch(`${baseURL}method/messages.send?access_token=${token}&user_id=${uid}&message=${message}`, {method: 'POST'});
+        return fetch(`${BASE_URL}method/messages.send?access_token=${TOKEN}&user_id=${uid}&message=${message}`, {method: 'POST'});
     }
 
     const getFriends = function (tokenCancel) {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `${baseURL}method/friends.get?access_token=${token}&fields=photo_50,last_seen,nickname`);
+        xhr.open("GET", `${BASE_URL}method/friends.get?access_token=${TOKEN}&fields=photo_50,last_seen,nickname`);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -152,7 +162,7 @@
     const searchFriends = function (tokenCancel, name) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseURL}method/friends.search?access_token=${token}&q=${name}&fields=photo_50,last_seen,nickname`, true);
+        xhr.open('GET', `${BASE_URL}method/friends.search?access_token=${TOKEN}&q=${name}&fields=photo_50,last_seen,nickname`, true);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -181,7 +191,7 @@
             id = userId;
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseURL}method/photos.get?access_token=${token}&owner_id=${id}&album_id=wall`, true);
+        xhr.open('GET', `${BASE_URL}method/photos.get?access_token=${TOKEN}&owner_id=${id}&album_id=wall`, true);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -210,9 +220,9 @@
         let id = uid;
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseURL}method/photos.getAlbums?access_token=${token}&owner_id=${id}&need_covers=1`, true);
+        xhr.open('GET', `${BASE_URL}method/photos.getAlbums?access_token=${TOKEN}&owner_id=${id}&need_covers=1`, true);
 
-        return new Promise(function(resolve , reject) {
+        return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
                 resolve(json.map(item => new Album(item)));
@@ -237,9 +247,9 @@
      */
     const getAlbumPhotos = function (tokenCancel, uid, albumId) {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseURL}method/photos.get?access_token=${token}&owner_id=${uid}&album_id=${albumId}`, true);
+        xhr.open('GET', `${BASE_URL}method/photos.get?access_token=${TOKEN}&owner_id=${uid}&album_id=${albumId}`, true);
 
-        return new Promise(function(resolve , reject) {
+        return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
                 resolve(json.map(item => new Photo(item)));
@@ -257,12 +267,34 @@
 
     const getNews = function (tokenCancel) {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseURL}method/newsfeed.get?access_token=${token}`, true);
+        xhr.open('GET', `${BASE_URL}method/newsfeed.get?access_token=${TOKEN}`, true);
 
-        return new Promise(function(resolve , reject) {
+        return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
-                console.log(json);
+                resolve(json.items.map((item) => {
+                    return new News(item);
+                }));
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
+    const getVideo = function (tokenCancel, id, ownerID) {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${BASE_URL}method/video.get?access_token=${TOKEN}&owner_id=${ownerID}`, true);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
                 resolve(json);
             };
 
@@ -281,7 +313,7 @@
         if (longPollCreated) return;
 
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `${baseURL}method/messages.getLongPollServer?access_token=${token}`, true);
+        xhr.open("GET", `${BASE_URL}method/messages.getLongPollServer?access_token=${TOKEN}`, true);
         xhr.send();
         xhr.addEventListener("load", function () {
             if (this.status === 200) {
@@ -293,7 +325,7 @@
                     console.log(this);
                 });
 
-                subscribe(`${baseURL}nim0800?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`);
+                subscribe(`${BASE_URL}nim0800?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`);
             }
         });
 
@@ -323,48 +355,13 @@
                 } else {
                 }
                 // new subscription with updated timestamp
-                subscribe(`${baseURL}nim0800?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`);
+                subscribe(`${BASE_URL}nim0800?act=a_check&key=${longPollCredentials.key}&ts=${longPollCredentials.ts}&wait=25&mode=2&version=1`);
             };
             xhr.open("GET", url, true);
             xhr.send();
             longPollCreated = true;
         }
     };
-
-    function User(item) {
-        this.firstName = item.first_name || '';
-        this.lastName = item.last_name || '';
-        this.photo = item.photo_50 || '';
-        this.lastSeen = item.last_seen || '';
-        this.nickname = item.nickname || '';
-        this.id = item.uid || 0;
-    }
-
-    function Dialog(item) {
-        this.body = item.body || '';
-        this.out = item.out || 0;
-        this.user = item.user ? new User(item.user) : null;
-    }
-
-    function Photo(obj) {
-        this.src = obj.src_big || '';
-        this.height = obj.height || 0;
-        this.width = obj.width || 0;
-    }
-
-    function Album(obj) {
-        this.title = obj.title || '';
-        this.id = obj.aid || '';
-        this.thumb_id = obj.thumb_id || '';
-        this.coverSrc = obj.thumb_src || '';
-    }
-
-    if (!window.app)
-        window.app = {};
-
-    app.model = {};
-    app.model.Dialog = Dialog;
-    app.model.User = User;
 
     app.xhrService = {
         getDialogs: getDialogs,
@@ -375,8 +372,9 @@
         longPoll: longPoll,
         searchFriends: searchFriends,
         getPhotos: getPhotos,
-        getAlbums : getAlbums,
-        getAlbumPhotos : getAlbumPhotos,
-        getNews: getNews
+        getAlbums: getAlbums,
+        getAlbumPhotos: getAlbumPhotos,
+        getNews: getNews,
+        getVideo: getVideo
     };
 })();
