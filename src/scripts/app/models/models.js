@@ -1,4 +1,4 @@
-(function() {
+(function () {
     function User(item) {
         this.firstName = item.first_name || '';
         this.lastName = item.last_name || '';
@@ -12,6 +12,14 @@
         this.body = item.body || '';
         this.out = item.out || 0;
         this.user = item.user ? new User(item.user) : null;
+    }
+
+    function Chat(obj) {
+        this.body = obj.body || '';
+        this.out = obj.out || 0;
+        this.title = obj.title || '';
+        this.id = obj.chat_id;
+        this.user = obj.user ? new User(obj.user) : null;
     }
 
     function Photo(obj) {
@@ -99,4 +107,5 @@
     app.model.Album = Album;
     app.model.News = News;
     app.model.Photo = Photo;
+    app.model.Chat = Chat;
 })();

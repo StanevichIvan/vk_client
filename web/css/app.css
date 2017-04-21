@@ -694,3 +694,20 @@ body {
     margin: 10px auto;
     padding: 15px;
     border: 1px solid #7d7d7d; }
+
+.chart-select {
+  position: relative;
+  padding-top: 20px; }
+  .chart-select__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%; }
+  .chart-select__start-chat {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10; }
+
+#friends-search-container {
+  position: relative; }

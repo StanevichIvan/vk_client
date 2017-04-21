@@ -23,7 +23,10 @@
         this.chartForm = document.getElementById("chart-form");
         this.messageInput = document.getElementById("message-input");
         this.scrollDownButton = document.getElementById("scroll-bottom");
-        this.chartUsers = new window.app.chatUsersComponent({mount: document.getElementById('friends-search-container')});
+        this.chartUsers = new window.app.chatUsersComponent({
+            mount: document.getElementById('friends-search-container'),
+            select: this.startMultiuserChat
+        });
 
         this.newMessage = (messages) => {
             let arr = [];
@@ -58,9 +61,11 @@
         }.bind(this);
 
         this.dialogSelect = function (event) {
-            const id = event.target.closest('.conversation__message').dataset.id;
-            this.userID = event.target.closest('.conversation__message').dataset.id;
-            this.showUserMessages(id);
+            if (event.target.classList.contains('conversation__message')) {
+                const id = event.target.closest('.conversation__message').dataset.id;
+                this.userID = event.target.closest('.conversation__message').dataset.id;
+                this.showUserMessages(id);
+            }
         }.bind(this);
 
 
@@ -116,9 +121,18 @@
         });
     };
 
+    Conversations.prototype.startMultiuserChat = function (arr) {
+
+        vkService.createMultiuserChat(this.activeRequest, arr)
+            .then((res) => {
+
+            });
+        // this.showUserMessages();
+    };
+
 
     Conversations.prototype.renderDialogs = function renderDialogs(data) {
-        document.getElementById('dialogs-container').appendChild(this.createListFragment(data, dialogRender));
+        document.getElementById('dialogs-container').appendChild(this.createListFragment(data, this.dialogRender));
     };
 
     /**
@@ -205,8 +219,10 @@
      * @param dialog
      * @returns {Element}
      */
-    var dialogRender = function (dialog) {
+    Conversations.prototype.dialogRender = function (dialog) {
         let div = document.createElement('div');
+
+        console.log(typeof dialog);
 
         if (typeof dialog !== 'object')
             return div;

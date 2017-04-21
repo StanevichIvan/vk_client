@@ -18,7 +18,8 @@
         Event = app.model.Event,
         Album = app.model.Album,
         News = app.model.News,
-        Photo = app.model.Photo;
+        Photo = app.model.Photo,
+        Chat = app.model.Chat;
 
     let longPollCreated = false;
 
@@ -57,6 +58,28 @@
             });
     };
 
+    const createMultiuserChat = function (tokenCancel, ids) {
+
+        let listOfIds = ids.toString();
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", BASE_URL + 'method/messages.createChat?access_token=' + TOKEN + "&user_ids=" + listOfIds);
+        //
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
     /**
      * Helper
      * Merge data from two requests
@@ -73,7 +96,12 @@
                     if (item.uid === user.uid) {
                         let resObj = Object.assign({}, item);
                         resObj.user = user;
-                        diaolgsBundle.push(new Dialog(resObj));
+
+                        if (resObj.hasOwnProperty('chat_id')) {
+                            diaolgsBundle.push(new Chat(resObj));
+                        } else {
+                            diaolgsBundle.push(new Dialog(resObj));
+                        }
                     }
                 });
             }
@@ -375,6 +403,7 @@
         getAlbums: getAlbums,
         getAlbumPhotos: getAlbumPhotos,
         getNews: getNews,
-        getVideo: getVideo
+        getVideo: getVideo,
+        createMultiuserChat: createMultiuserChat
     };
 })();
