@@ -229,6 +229,7 @@
         });
         return div;
     }
+
     /**
      *
      * @param message {Dialog}
@@ -274,8 +275,6 @@
         return div;
     };
 
-
-
     function createDialogsColumn() {
         let div = document.createElement('div');
         div.classList.add('content__right-column');
@@ -302,12 +301,23 @@
                     <div class="chart__input-wrap">
                         <div class="chart__input">
                             <input placeholder="Your message" name="message" id="message-input">
+                            <input id="file-upload" name="image" type="file">
                         </div>
                         <button class="chart__input-button" type="submit">Send</button>
                     </div>
                     <img src="images/photo.png">
                 </form>
             </section>`;
+
+        div.querySelector('#file-upload').addEventListener('change', (e) => {
+
+            vkService.messagesPhotoUploadServer({}).then((res) => {
+                return vkService.messagesPhotoUpload({}, res, e.target);
+            }).then((res) => {
+                console.log(res);
+            });
+        });
+
         return div;
     }
 
