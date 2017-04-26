@@ -125,7 +125,6 @@
 
         vkService.createMultiuserChat(this.activeRequest, arr)
             .then((res) => {
-
             });
         // this.showUserMessages();
     };
@@ -225,7 +224,7 @@
             e.stopPropagation();
             vkService.getChatMessages(this.activeRequest, dialog.id)
                 .then((res) => {
-                    this.renderMessages([]);
+                    this.renderMessages(res);
                 });
         });
         return div;
