@@ -165,7 +165,8 @@
     const getChatMessages = function (tokenCancel, id) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&peer_id=2000000000${id}&count=200&v=5.38`);
+        const chatID = +2000000000 + +id;
+        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&peer_id=${chatID}&count=200&v=5.38`);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
