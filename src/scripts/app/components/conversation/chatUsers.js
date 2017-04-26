@@ -37,6 +37,8 @@
 
     ChartUsers.prototype.showUsers = function () {
 
+        let fragment = document.createDocumentFragment();
+
         this.users.forEach((item) => {
             let div = document.createElement('div');
 
@@ -58,8 +60,9 @@
             if (this.filter.length !== 0 && !(item.firstName + item.lastName).includes(this.filter))
                 div.style.display = 'none';
 
-            this.form.appendChild(div);
+            fragment.appendChild(div);
         });
+        this.form.appendChild(fragment);
         this.mount.appendChild(this.form);
     };
 
