@@ -147,28 +147,89 @@
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
             // fragment.appendChild(nodeCreateFn(`${user.first_name} ${user.last_name}`, user.photo_50));
-            fragment.appendChild(nodeCreateFn(item));
+            fragment.appendChild(nodeCreateFn.bind(this)(item));
         }
         return fragment;
     };
 
     Conversations.prototype.showUserMessages = function (uid) {
-        document.getElementById('chart-form').dataset.id = uid;
+        this.chartForm.dataset.id = uid;
 
         vkService.getMessages(this.activeRequest, uid)
             .then((messages) => {
                 this.messages = messages;
-                this.renderMesasges(messages);
+                this.renderMessages.bind(this)(messages);
             });
     };
 
-    Conversations.prototype.renderMesasges = function (messages) {
+    Conversations.prototype.renderMessages = function (messages) {
         const container = document.getElementById('messages-container');
         container.innerHTML = "";
         container.appendChild(this.createListFragment(messages.reverse(), messageRender));
         container.scrollTop = container.scrollHeight;
     };
 
+    /**
+     * render dom element for message
+     * @param dialog
+     * @returns {Element}
+     */
+    Conversations.prototype.dialogRender = function (dialog) {
+        let div = document.createElement('div');
+
+        if (typeof dialog !== 'object') {
+            return div;
+        }
+
+        if (dialog instanceof window.app.model.Chat) {
+            return createChartListItem.bind(this)(dialog);
+        }
+
+        div.dataset.id = dialog.user.id;
+        div.className += "conversation__message new";
+        //language=HTML
+        div.innerHTML = `<img class="conversation__avatar" src="${dialog.user.photo}">
+                            <div class="conversation__message-info">
+                                <h4 class="conversation__name">${dialog.user.firstName} ${dialog.user.lastName}</h4>
+                                <p class="conversation__message-text">${dialog.body}</p>
+                            </div>
+                            <div class="conversation__message-info">
+                                <h4 class="conversation__name conversation__name_right">
+                                    <span class="conversation__message-count">${dialog.out}</span>
+                                    <span class="conversation__message-time">1 min</span>
+                                </h4>
+                                <p class="conversation__message-text conversation__name_right"><i
+                                        class="conversation__attachment"></i></p>
+                            </div>`;
+        return div;
+    };
+
+    function createChartListItem(dialog) {
+        let div = document.createElement('div');
+        div.className += "conversation__message new";
+        div.innerHTML = `<img class="conversation__avatar" >
+                            <div class="conversation__message-info">
+                                <h4 class="conversation__name">${dialog.title}</h4>
+                                <p class="conversation__message-text">${dialog.body}</p>
+                            </div>
+                            <div class="conversation__message-info">
+                                <h4 class="conversation__name conversation__name_right">
+                                    <span class="conversation__message-count">${dialog.out}</span>
+                                    <span class="conversation__message-time">1 min</span>
+                                </h4>
+                                <p class="conversation__message-text conversation__name_right"><i
+                                        class="conversation__attachment"></i></p>
+                            </div>`;
+
+        div.addEventListener('click', (e) => {
+            e.stopPropagation();
+            vkService.getChatMessages(this.activeRequest, dialog.id)
+                .then((res) => {
+                    this.renderMessages([]);
+                });
+        });
+        return div;
+    }
     /**
      *
      * @param message {Dialog}
@@ -214,37 +275,7 @@
         return div;
     };
 
-    /**
-     * render dom element for message
-     * @param dialog
-     * @returns {Element}
-     */
-    Conversations.prototype.dialogRender = function (dialog) {
-        let div = document.createElement('div');
 
-        console.log(typeof dialog);
-
-        if (typeof dialog !== 'object')
-            return div;
-
-        div.dataset.id = dialog.user.id;
-        div.className += "conversation__message new";
-        //language=HTML
-        div.innerHTML = `<img class="conversation__avatar" src="${dialog.user.photo}">
-                            <div class="conversation__message-info">
-                                <h4 class="conversation__name">${dialog.user.firstName} ${dialog.user.lastName}</h4>
-                                <p class="conversation__message-text">${dialog.body}</p>
-                            </div>
-                            <div class="conversation__message-info">
-                                <h4 class="conversation__name conversation__name_right">
-                                    <span class="conversation__message-count">${dialog.out}</span>
-                                    <span class="conversation__message-time">1 min</span>
-                                </h4>
-                                <p class="conversation__message-text conversation__name_right"><i
-                                        class="conversation__attachment"></i></p>
-                            </div>`;
-        return div;
-    };
 
     function createDialogsColumn() {
         let div = document.createElement('div');

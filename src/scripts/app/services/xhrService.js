@@ -109,6 +109,7 @@
         return diaolgsBundle;
     };
 
+
     /**
      * Loads data users profiles
      * @param tokenCancel
@@ -147,6 +148,49 @@
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
                 resolve(json.map(item => new Dialog(item)));
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+    /**
+     * Get chat messages
+     * @returns {*}
+     */
+    const getChatMessages = function (tokenCancel, id) {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&peer_id=2000000000${id}&count=200&v=5.38`);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
+    const sendChatMessage = function () {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `${BASE_URL}method/messages.send?access_token=${TOKEN}&chat_id=${id}`);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json);
             };
 
             tokenCancel.cancel = function () {
@@ -404,6 +448,7 @@
         getAlbumPhotos: getAlbumPhotos,
         getNews: getNews,
         getVideo: getVideo,
-        createMultiuserChat: createMultiuserChat
+        createMultiuserChat: createMultiuserChat,
+        getChatMessages: getChatMessages
     };
 })();
