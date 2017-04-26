@@ -171,7 +171,7 @@
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
-                resolve(json);
+                resolve(json.items.map(item => new Dialog(item)));
             };
 
             tokenCancel.cancel = function () {
