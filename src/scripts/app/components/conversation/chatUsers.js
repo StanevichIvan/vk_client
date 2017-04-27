@@ -7,7 +7,6 @@
         this.activeRequest = {};
         this.wrap = document.getElementById('router-outlet');
         this.mount = props.mount;
-        this.userSelect = props.select;
         this.selectButton = createFriendsSelectButton();
         this.usersContainer = document.createElement('div');
         this.usersContainer.classList.add('chart-select');
@@ -74,7 +73,7 @@
         button.classList.add('chart-select__start-chat');
 
         button.addEventListener('click', () => {
-            this.userSelect(this.userIds);
+            this.startMultiuserChat(this.userIds);
             this.mount.innerHTML = '';
         });
 
@@ -102,6 +101,10 @@
         });
         searchInput.classList.add('chart-select__input');
         this.mount.appendChild(searchInput);
+    };
+
+    ChartUsers.prototype.startMultiuserChat = function() {
+        vkService.createMultiuserChat(this.activeRequest, this.userIds);
     };
 
     function createFriendsSelectButton() {

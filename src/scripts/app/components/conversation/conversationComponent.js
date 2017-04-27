@@ -24,8 +24,7 @@
         this.messageInput = document.getElementById("message-input");
         this.scrollDownButton = document.getElementById("scroll-bottom");
         this.chartUsers = new window.app.chatUsersComponent({
-            mount: document.getElementById('friends-search-container'),
-            select: this.startMultiuserChat
+            mount: document.getElementById('friends-search-container')
         });
 
         this.newMessage = (messages) => {
@@ -117,18 +116,8 @@
             .then((res) => {
                 this.renderDialogs(res);
             }).catch((err) => {
-            alert(err);
         });
     };
-
-    Conversations.prototype.startMultiuserChat = function (arr) {
-
-        vkService.createMultiuserChat(this.activeRequest, arr)
-            .then((res) => {
-            });
-        // this.showUserMessages();
-    };
-
 
     Conversations.prototype.renderDialogs = function renderDialogs(data) {
         document.getElementById('dialogs-container').appendChild(this.createListFragment(data, this.dialogRender));
