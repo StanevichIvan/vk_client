@@ -93,6 +93,12 @@
         });
     }
 
+    function Document(obj) {
+        this.ownerID = obj.owner_id || '';
+        this.title = obj.title || '';
+        this.url = obj.url || '';
+        this.mediaID = obj.did || '';
+    }
 
     if (!window.app)
         window.app = {};
@@ -108,4 +114,5 @@
     app.model.News = News;
     app.model.Photo = Photo;
     app.model.Chat = Chat;
+    app.model.Document = Document;
 })();

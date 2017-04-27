@@ -57,7 +57,7 @@
         } else if (~theUrl.indexOf('pu.vk.com')) {
 
             var proxyUrl = theUrl.substr(1, theUrl.length) + (urlData.search || '');
-            var proxyStream = request(proxyUrl);
+            var proxyStream = request.post(proxyUrl);
 
             proxyStream.on('error', function (e) {
                 res.end();

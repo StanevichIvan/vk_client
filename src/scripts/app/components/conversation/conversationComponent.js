@@ -269,7 +269,6 @@
                             <p class="chart-message__text">
                                ${message.body}
                             </p>
-
                         </div>`;
 
         return div;
@@ -295,26 +294,35 @@
         div.innerHTML = `
             <section class="chart">
                 <div class="chart__messages" id="messages-container"></div>
-
                 <span class="chart__scroll-to-bottom" id="scroll-bottom">&darr;</span>
                 <form class="chart__form" id="chart-form">
                     <div class="chart__input-wrap">
-                        <div class="chart__input">
-                            <input placeholder="Your message" name="message" id="message-input">
-                            <input id="file-upload" name="image" type="file">
+                        <div class="chart__input"><input placeholder="Your message" name="message" id="message-input">
+                            <div class="chart__file-upload"><input id="file-upload" name="image" type="file"></div>
+                            <div id="docs-select" class="docs-select chart__docs-select">
+                                <div id="docs-select-list" class="docs-select__list"></div>
+                                <button id="docs-select__button" class="docs-select__button" type="button">Attach file
+                                </button>
+                            </div>
                         </div>
                         <button class="chart__input-button" type="submit">Send</button>
                     </div>
-                    <img src="images/photo.png">
-                </form>
+                    <img src="images/photo.png"></form>
             </section>`;
 
         div.querySelector('#file-upload').addEventListener('change', (e) => {
-
             vkService.messagesPhotoUploadServer({}).then((res) => {
                 return vkService.messagesPhotoUpload({}, res, e.target);
             }).then((res) => {
             });
+        });
+
+        div.querySelector('#docs-select__button').addEventListener('click', () => {
+            div.querySelector('#docs-select-list').classList.toggle('active');
+        });
+
+        new window.app.docsComponent({
+            container: div.querySelector('#docs-select-list')
         });
 
         return div;

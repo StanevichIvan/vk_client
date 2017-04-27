@@ -1,6 +1,6 @@
 (function () {
-    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,wall,video,photos&response_type=token'
-    const TOKEN = '';
+    // window.location = 'https://oauth.vk.com/authorize?client_id=5971236&redirect_uri=blank.html&scope=friends,messages,wall,video,docs,photos&response_type=token'
+    const TOKEN = '4a83fec05564025fb427b4d9145b6c6a17096f9479f833497dfa772ac5a846f51cdd3a89f749a7310e9e1';
     const BASE_URL = 'http://localhost:5000/';
     const userId = '145772800';
 
@@ -19,6 +19,7 @@
         Album = app.model.Album,
         News = app.model.News,
         Photo = app.model.Photo,
+        Document = app.model.Document,
         Chat = app.model.Chat;
 
     let longPollCreated = false;
@@ -471,16 +472,67 @@
             };
 
             xhr.onerror = reject;
-
-            var formData = new FormData();
-            formData.append("photo", photo.files[0]);
+            let file = photo.files[0];
+            let formData = new FormData();
+            formData.append("photo", file);
 
             xhr.open('POST', BASE_URL + url, true);
             xhr.setRequestHeader('Content-Type', 'multipart/form-data;');
             xhr.send(formData);
 
-        }).catch((err)=> {
-            debugger;
+        }).catch((err) => {
+        });
+    };
+
+    const getDocs = function (tokenCancel) {
+
+        let xhr = new XMLHttpRequest();
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                let arr = [];
+
+                json.forEach((item) => {
+                    if (typeof item === 'object') {
+                        arr.push(new Document(item));
+                    }
+                });
+
+                resolve(arr);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.open('GET', `${BASE_URL}method/docs.get?access_token=${TOKEN}`, true);
+            xhr.send();
+        });
+    };
+
+    const sendDocMessage = function (tokenCancel, doc) {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${BASE_URL}method/messages.send?access_token=${TOKEN}&user_id=373432064&attachment=doc${doc.ownerID}_${doc.mediaID}`, true);
+
+        debugger;
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+
+                resolve(json);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error('Cancelled'));
+            };
+
+            xhr.onerror = reject;
+            xhr.send();
         });
     };
 
@@ -500,6 +552,8 @@
         createMultiuserChat: createMultiuserChat,
         getChatMessages: getChatMessages,
         messagesPhotoUploadServer: messagesPhotoUploadServer,
-        messagesPhotoUpload: messagesPhotoUpload
+        messagesPhotoUpload: messagesPhotoUpload,
+        getDocs: getDocs,
+        sendDocMessage: sendDocMessage
     };
 })();

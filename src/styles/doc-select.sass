@@ -1,0 +1,21 @@
+.docs-select
+  position: relative
+
+  &__list
+    display: none
+    position: absolute
+    height: 300px
+    width: 200px
+    top: -300px
+    overflow-y: scroll
+    overflow-x: hidden
+    background: #fafafa
+
+    &.active
+      display: block
+
+  &__list-title
+    margin: 0
+    padding: 5px 0
+
+  &__button

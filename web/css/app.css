@@ -424,6 +424,11 @@ body {
     transform: translate3d(-4px, 0, 0); }
   40%, 60% {
     transform: translate3d(4px, 0, 0); } }
+  .chart__file-upload {
+    width: 50%;
+    float: left; }
+  .chart__docs-select {
+    float: left; }
 
 .chart-message {
   display: flex;
@@ -711,3 +716,20 @@ body {
 
 #friends-search-container {
   position: relative; }
+
+.docs-select {
+  position: relative; }
+  .docs-select__list {
+    display: none;
+    position: absolute;
+    height: 300px;
+    width: 200px;
+    top: -300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: #fafafa; }
+    .docs-select__list.active {
+      display: block; }
+  .docs-select__list-title {
+    margin: 0;
+    padding: 5px 0; }
