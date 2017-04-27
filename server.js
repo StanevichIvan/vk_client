@@ -4,14 +4,16 @@
 
     var PORT = 5000,
         PROXY_URL = 'https://api.vk.com',
-        LONG_POLL_URL = 'https://newimv4.vk.com';
+        LONG_POLL_URL = 'https://newimv4.vk.com',
+        PHOTO_UPLOAD_URL = 'https://pu.vk.com/';
 
     var http = require('http'),
         url = require('url'),
         path = require('path'),
         fs = require('fs'),
         request = require('request'),
-        mime = require('mime');
+        mime = require('mime'),
+        bodyParser = require('body-parser');
 
     var server = http.createServer(function (req, res) {
         var urlData = url.parse(req.url),
@@ -42,7 +44,6 @@
             var proxyUrl = LONG_POLL_URL + theUrl + (urlData.search || '');
             var proxyStream = request(proxyUrl);
             proxyStream.on('error', function (e) {
-                console.log(e);
                 res.end();
                 proxyStream.destroy();
             });
@@ -53,6 +54,23 @@
                 proxyStream.destroy();
                 res.destroy();
             });
+        } else if (~theUrl.indexOf('pu.vk.com')) {
+
+            var proxyUrl = theUrl.substr(1, theUrl.length) + (urlData.search || '');
+            var proxyStream = request(proxyUrl);
+
+            proxyStream.on('error', function (e) {
+                res.end();
+                proxyStream.destroy();
+            });
+
+            req.pipe(proxyStream).pipe(res);
+
+            req.on('close', function () {
+                proxyStream.destroy();
+                res.destroy();
+            });
+
         } else {
 
             if (theUrl === '/') {
@@ -96,7 +114,5 @@
     server.on('error', function () {
         server.listen(PORT);
     });
-
-    //{"error":{"error_code":15,"error_msg":"Access denied: no access to call this method","request_params":[{"key":"oauth","value":"1"},{"key":"method","value":"messages.get"}]}}
 }());
 

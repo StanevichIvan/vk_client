@@ -314,7 +314,6 @@
             vkService.messagesPhotoUploadServer({}).then((res) => {
                 return vkService.messagesPhotoUpload({}, res, e.target);
             }).then((res) => {
-                console.log(res);
             });
         });
 

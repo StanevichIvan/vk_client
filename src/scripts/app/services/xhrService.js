@@ -459,8 +459,6 @@
 
     const messagesPhotoUpload = function (tokenCancel, url, photo) {
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
-
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
@@ -474,64 +472,15 @@
 
             xhr.onerror = reject;
 
-            let file = {
-                dom: photo,
-                binary: null
-            };
+            var formData = new FormData();
+            formData.append("photo", photo.files[0]);
 
-            let reader = new FileReader();
+            xhr.open('POST', BASE_URL + url, true);
+            xhr.setRequestHeader('Content-Type', 'multipart/form-data;');
+            xhr.send(formData);
 
-            reader.addEventListener('load', () => {
-                file.binary = reader.result;
-                // We need a separator to define each part of the request
-                var boundary = "blob";
-
-                // Store our body request in a string.
-                var data = "";
-
-                // So, if the user has selected a file
-                if (file.dom.files[0]) {
-                    // Start a new part in our body's request
-                    data += "--" + boundary + "\r\n";
-
-                    // Describe it as form data
-                    data += 'content-disposition: form-data; '
-                        // Define the name of the form data
-                        + 'name="' + file.dom.name + '"; '
-                        // Provide the real name of the file
-                        + 'filename="' + file.dom.files[0].name + '"\r\n';
-                    // And the MIME type of the file
-                    data += 'Content-Type: ' + file.dom.files[0].type + '\r\n';
-
-                    // There's a blank line between the metadata and the data
-                    data += '\r\n';
-
-                    // Append the binary data to our body's request
-                    data += file.binary + '\r\n';
-                }
-
-                // Text data is simpler
-                // Start a new part in our body's request
-                data += "--" + boundary + "\r\n";
-
-                // Say it's form data, and name it
-                data += 'content-disposition: form-data; name="' + 'photo' + '"\r\n';
-                // There's a blank line between the metadata and the data
-                data += '\r\n';
-
-                // Append the text data to our body's request
-                data += 'photo' + "\r\n";
-
-                // Once we are done, "close" the body's request
-                data += "--" + boundary + "--";
-
-                xhr.setRequestHeader('Content-Type','multipart/form-data; boundary=' + boundary);
-                xhr.send(data);
-            });
-
-            if (file.dom.files[0]) {
-                reader.readAsBinaryString(file.dom.files[0]);
-            }
+        }).catch((err)=> {
+            debugger;
         });
     };
 

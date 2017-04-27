@@ -12,6 +12,7 @@
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
+    "body-parser": "^1.17.1",
     "del": "^2.2.2",
     "es6-promise": "*",
     "gulp": "^3.9.1",
