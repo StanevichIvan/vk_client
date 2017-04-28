@@ -57,10 +57,15 @@
         event.preventDefault();
 
         const message = event.target.message.value;
-        vkService.sendMessage(this.id, message).then(() => {
-            // this.messageInput.value = '';
-            document.getElementsByClassName('emojionearea-editor')[0].innerHTML = '';
-        });
+        if (this.type === 'dialog') {
+            vkService.sendMessage(this.id, message).then(() => {
+                // this.messageInput.value = '';
+                document.getElementsByClassName('emojionearea-editor')[0].innerHTML = '';
+            });
+        } else if (this.type === 'chat') {
+            vkService.sendChatMessage({}, this.id, message).then(() => {
+            });
+        }
     };
 
 

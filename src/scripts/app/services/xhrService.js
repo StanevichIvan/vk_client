@@ -184,10 +184,10 @@
         });
     };
 
-    const sendChatMessage = function () {
+    const sendChatMessage = function (tokenCancel, id, message) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `${BASE_URL}method/messages.send?access_token=${TOKEN}&chat_id=${id}`);
+        xhr.open("GET", `${BASE_URL}method/messages.send?access_token=${TOKEN}&chat_id=${id}&message=${message}`);
 
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
@@ -554,6 +554,7 @@
         messagesPhotoUploadServer: messagesPhotoUploadServer,
         messagesPhotoUpload: messagesPhotoUpload,
         getDocs: getDocs,
-        sendDocMessage: sendDocMessage
+        sendDocMessage: sendDocMessage,
+        sendChatMessage: sendChatMessage
     };
 })();

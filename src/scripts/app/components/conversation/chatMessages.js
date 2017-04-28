@@ -148,6 +148,5 @@
         return div;
     };
 
-
     app.chatMessagesComponent = ChatMessages;
 })();
