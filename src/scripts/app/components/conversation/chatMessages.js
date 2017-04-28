@@ -41,7 +41,7 @@
     };
 
     ChatMessages.prototype.destroy = function () {
-        window.app.messagesObserver.subscribe(this.newMessage);
+        window.app.messagesObserver.unsubscribe(this.newMessage);
     };
 
     ChatMessages.prototype.newMessage = function (messages) {

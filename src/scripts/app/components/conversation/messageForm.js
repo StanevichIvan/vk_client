@@ -15,21 +15,26 @@
 
     MessageForm.prototype.render = function () {
         let div = document.createElement('div');
-        div.innerHTML = `<form class="chart__form" id="chart-form">
-                        <div class="chart__input-wrap">
-                            <div class="chart__input"><input placeholder="Your message" name="message" id="message-input">
-                                <div class="chart__file-upload"><input id="file-upload" name="image" type="file"></div>
-                                <div id="docs-select" class="docs-select chart__docs-select">
-                                    <div id="docs-select-list" class="docs-select__list"></div>
-                                    <button id="docs-select__button" class="docs-select__button" type="button">Attach file
-                                    </button>
-                                </div>
-                            </div>
-                            <button class="chart__input-button" type="submit">Send</button>
+        //language=HTML
+        div.innerHTML = `
+            <form class="chart__form" id="chart-form">
+                <div class="chart__input-wrap">
+                    <div class="chart__input"><input placeholder="Your message" name="message" id="message-input">
+                        <div class="chart__file-upload"><input id="file-upload" name="image" type="file"></div>
+                        <div id="docs-select" class="docs-select chart__docs-select">
+                            <div id="docs-select-list" class="docs-select__list"></div>
+                            <button id="docs-select__button" class="docs-select__button" type="button">Attach file
+                            </button>
                         </div>
-                        <img src="images/photo.png">
-                    </form>`;
+                    </div>
+                    <button class="chart__input-button" type="submit">Send</button>
+                </div>
+                <img src="images/photo.png">
+            </form>`;
 
+        div.querySelector('#chart-form').addEventListener('submit', (e) => {
+            this.formSubmit(e);
+        });
 
         div.querySelector('#file-upload').addEventListener('change', (e) => {
             vkService.messagesPhotoUploadServer({}).then((res) => {
@@ -50,9 +55,10 @@
 
     MessageForm.prototype.formSubmit = function (event) {
         event.preventDefault();
+
         const message = event.target.message.value;
-        vkService.sendMessage(this.userID, message).then(() => {
-            this.messageInput.value = '';
+        vkService.sendMessage(this.id, message).then(() => {
+            // this.messageInput.value = '';
             document.getElementsByClassName('emojionearea-editor')[0].innerHTML = '';
         });
     };
