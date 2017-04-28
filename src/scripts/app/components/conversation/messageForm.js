@@ -8,7 +8,6 @@
     function MessageForm(mountNode, props) {
         this.id = props.id;
 
-
     }
 
     MessageForm.prototype.render = function () {

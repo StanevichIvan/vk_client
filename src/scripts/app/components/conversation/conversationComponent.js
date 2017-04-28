@@ -105,6 +105,12 @@
                                 <p class="conversation__message-text conversation__name_right"><i
                                         class="conversation__attachment"></i></p>
                             </div>`;
+
+        div.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let dia = new window.app.chatComponent(document.getElementById('chat'), {id: dialog.user.id, type: 'dialog'});
+        });
+
         return div;
     };
 
@@ -127,11 +133,10 @@
 
         div.addEventListener('click', (e) => {
             e.stopPropagation();
-            let chat = new window.app.chatComponent(document.getElementById('chat'), {id: dialog.id});
+            let chat = new window.app.chatComponent(document.getElementById('chat'), {id: dialog.id, type: 'chat'});
         });
         return div;
     }
-
 
     function createDialogsColumn() {
         let div = document.createElement('div');

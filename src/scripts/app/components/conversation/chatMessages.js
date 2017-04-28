@@ -13,8 +13,9 @@
         this.id = props.id;
         this.messagesContainer.addEventListener('scroll', (e) => {
             let elem = e.target;
-            if (elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight)
-                this.scrollDownButton.classList.remove('show');
+            if (elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight) {
+                // this.scrollDownButton.classList.remove('show');
+            }
         });
 
         // this.newMessage = (messages) => {
@@ -40,12 +41,20 @@
         //     }
         // };
 
-        vkService.getChatMessages(this.activeRequest, this.id)
-            .then((res) => {
-                this.renderMessages(res);
-            });
+        if (props.type === 'chat') {
+            vkService.getChatMessages(this.activeRequest, this.id)
+                .then((res) => {
+                    this.renderMessages(res);
+                });
+        } else {
+            vkService.getMessages(this.activeRequest, this.id)
+                .then((res) => {
+                    this.renderMessages(res);
+                });
+        }
 
-        window.app.messagesObserver.subscribe(()=>{});//(this.newMessage);
+        window.app.messagesObserver.subscribe(() => {
+        });//(this.newMessage);
         vkService.longPoll();
     }
 
