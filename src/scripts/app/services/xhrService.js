@@ -513,10 +513,10 @@
         });
     };
 
-    const sendDocMessage = function (tokenCancel, doc) {
+    const sendDocMessage = function (tokenCancel, doc, id) {
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${BASE_URL}method/messages.send?access_token=${TOKEN}&user_id=373432064&attachment=doc${doc.ownerID}_${doc.mediaID}`, true);
+        xhr.open('GET', `${BASE_URL}method/messages.send?access_token=${TOKEN}&user_id=${id}&attachment=doc${doc.ownerID}_${doc.mediaID}`, true);
 
         debugger;
         return new Promise(function (resolve, reject) {
