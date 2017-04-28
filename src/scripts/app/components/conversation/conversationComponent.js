@@ -15,96 +15,30 @@
         this.container = document.getElementById('router-outlet');
         this.dialogsContainer = createDialogsColumn();
         this.chatContainer = createChatContainer();
-
         this.container.appendChild(this.dialogsContainer);
         this.container.appendChild(this.chatContainer);
 
-        this.messagesContainer = document.getElementById('messages-container');
-        this.chartForm = document.getElementById("chart-form");
-        this.messageInput = document.getElementById("message-input");
-        this.scrollDownButton = document.getElementById("scroll-bottom");
-        this.chartUsers = new window.app.chatUsersComponent({
-            mount: document.getElementById('friends-search-container')
-        });
-
-        this.newMessage = (messages) => {
-            let arr = [];
-
-            messages.forEach((item) => {
-                let obj = {
-                    body: item[6],
-                    user: item[3],
-                    out: 0
-                };
-                obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
-                arr.push(new window.app.model.Dialog(obj));
-            });
-            this.messages.push(arr);
-
-            if (this.messagesContainer.scrollTop + this.messagesContainer.clientHeight === this.messagesContainer.scrollHeight) {
-                this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
-                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-            } else {
-                this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
-                this.showScrollToButtom();
-            }
+        this.multichatSelect = function () {
+            this.chat = new window.app.chatComponent(document.getElementById('chat'), {id: this.userID});
         };
 
-        this.formSubmit = function (event) {
-            event.preventDefault();
-            const message = event.target.message.value;
-            vkService.sendMessage(this.userID, message).then(() => {
-                this.messageInput.value = '';
-                document.getElementsByClassName('emojionearea-editor')[0].innerHTML = '';
-            });
-        }.bind(this);
-
-        this.dialogSelect = function (event) {
-            if (event.target.classList.contains('conversation__message')) {
-                const id = event.target.closest('.conversation__message').dataset.id;
-                this.userID = event.target.closest('.conversation__message').dataset.id;
-                this.showUserMessages(id);
-            }
-        }.bind(this);
-
-
-        this.scrollMessagesToBottom = () => {
-            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-            this.scrollDownButton.classList.remove('show');
-        };
-
-        this.showScrollToButtom = () => {
-            this.scrollDownButton.classList.add('show');
-        };
-
-        this.messagesContainer.addEventListener('scroll', (e) => {
-            let elem = e.target;
-            if (elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight)
-                this.scrollDownButton.classList.remove('show');
-        });
-
-        this.chartForm.addEventListener('submit', this.formSubmit);
-        this.dialogsContainer.addEventListener('click', this.dialogSelect);
-        this.scrollDownButton.addEventListener('click', this.scrollMessagesToBottom);
-
-        this.destroy = function () {
-            this.chartForm.removeEventListener('submit', this.formSubmit);
-            this.dialogsContainer.removeEventListener('click', this.dialogSelect);
-            this.scrollDownButton.removeEventListener('click', this.scrollMessagesToBottom);
-            this.dialogsContainer.innerHTML = '';
-            this.messagesContainer.innerHTML = '';
-
-            this.container.innerHTML = '';
-            window.app.messagesObserver.unsubscribeAll();
-
-            if (this.activeRequest.cancel)
-                this.activeRequest.cancel();
-        }.bind(this);
+        // this.chartUsers = new window.app.chatUsersComponent({
+        //     mount: document.getElementById('friends-search-container'),
+        //     chatSelectFunc: this.multichatSelect
+        // });
 
         this.showDialogs();
-        vkService.longPoll();
-        window.app.messagesObserver.subscribe(this.newMessage);
     }
+
+    Conversations.prototype.destroy = function () {
+        this.dialogsContainer.innerHTML = '';
+
+        this.container.innerHTML = '';
+        window.app.messagesObserver.unsubscribeAll();
+
+        if (this.activeRequest.cancel)
+            this.activeRequest.cancel();
+    };
 
     /**
      * Shows dialogs into container
@@ -119,10 +53,6 @@
         });
     };
 
-    Conversations.prototype.renderDialogs = function renderDialogs(data) {
-        document.getElementById('dialogs-container').appendChild(this.createListFragment(data, this.dialogRender));
-    };
-
     /**
      * Create document fragment from list
      * @param data {Vk_API_data}
@@ -134,27 +64,13 @@
 
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
-            // fragment.appendChild(nodeCreateFn(`${user.first_name} ${user.last_name}`, user.photo_50));
             fragment.appendChild(nodeCreateFn.bind(this)(item));
         }
         return fragment;
     };
 
-    Conversations.prototype.showUserMessages = function (uid) {
-        this.chartForm.dataset.id = uid;
-
-        vkService.getMessages(this.activeRequest, uid)
-            .then((messages) => {
-                this.messages = messages;
-                this.renderMessages.bind(this)(messages);
-            });
-    };
-
-    Conversations.prototype.renderMessages = function (messages) {
-        const container = document.getElementById('messages-container');
-        container.innerHTML = "";
-        container.appendChild(this.createListFragment(messages.reverse(), messageRender));
-        container.scrollTop = container.scrollHeight;
+    Conversations.prototype.renderDialogs = function renderDialogs(data) {
+        document.getElementById('dialogs-container').appendChild(this.createListFragment(data, this.dialogRender));
     };
 
     /**
@@ -211,57 +127,11 @@
 
         div.addEventListener('click', (e) => {
             e.stopPropagation();
-            vkService.getChatMessages(this.activeRequest, dialog.id)
-                .then((res) => {
-                    this.renderMessages(res);
-                });
+            let chat = new window.app.chatComponent(document.getElementById('chat'), {id: dialog.id});
         });
         return div;
     }
 
-    /**
-     *
-     * @param message {Dialog}
-     * @returns {Element}
-     */
-    var messageRender = function (message) {
-        let div = document.createElement('div');
-
-        if (typeof message !== 'object') {
-            return div;
-        }
-        // skip link messages
-        if (message.body.length === 0) {
-            div.style.display = 'none';
-            return div;
-        }
-
-
-        div.className += "chart-message";
-        if (message.out === 1) {
-            div.className += " mine";
-        }
-
-        div.innerHTML = `<div class="chart-message__avatar">
-                            <div class="chart-message__avatar-content active">
-                                <img src="images/photo.png">
-                                <div class="chart-message__controls">
-                                    <span class="chart-message__control chart-message__control_star"></span>
-                                    <span class="chart-message__control chart-message__control_share"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chart-message__time">
-                            <!--<span>15 sec.</span>-->
-                        </div>
-                        <div class="chart-message__content">
-                            <p class="chart-message__text">
-                               ${message.body}
-                            </p>
-                        </div>`;
-
-        return div;
-    };
 
     function createDialogsColumn() {
         let div = document.createElement('div');
@@ -281,7 +151,7 @@
         div.classList.add('content__text-container');
         //language=HTML
         div.innerHTML = `
-            <section class="chart">
+            <section class="chart" id="chat">
                 <div class="chart__messages" id="messages-container"></div>
                 <span class="chart__scroll-to-bottom" id="scroll-bottom">&darr;</span>
                 <form class="chart__form" id="chart-form">

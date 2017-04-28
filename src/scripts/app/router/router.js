@@ -1,6 +1,6 @@
 (function () {
 
-    var components = {
+    let components = {
         dialogs: window.app.conversationComponent,
         friends: window.app.friendsComponent,
         photos: window.app.photosComponent,

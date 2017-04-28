@@ -16,6 +16,7 @@
         this.users = [];
         this.filter = '';
         this.userIds = [];
+        this.chatSelect = props.chatSelectFunc;
 
         this.render();
 

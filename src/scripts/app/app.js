@@ -4,7 +4,7 @@
 (function () {
 
     // Instance stores a reference to the Singleton
-    var instance;
+    let instance;
 
     function init() {
         const router = window.app.router;
@@ -25,6 +25,7 @@
     };
 })();
 
+// emoji area
 $(document).ready(function() {
     $("#message-input").emojioneArea();
 });
