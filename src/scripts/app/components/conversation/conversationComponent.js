@@ -86,7 +86,7 @@
         }
 
         if (dialog instanceof window.app.model.Chat) {
-            return createChartListItem.bind(this)(dialog);
+            return createChartListItem.call(this, dialog);
         }
 
         div.dataset.id = dialog.user.id;
@@ -108,7 +108,10 @@
 
         div.addEventListener('click', (e) => {
             e.stopPropagation();
-            let dia = new window.app.chatComponent(document.getElementById('chat'), {id: dialog.user.id, type: 'dialog'});
+            let dia = new window.app.chatComponent(document.getElementById('chat'), {
+                id: dialog.user.id,
+                type: 'dialog'
+            });
         });
 
         return div;
@@ -155,39 +158,7 @@
         let div = document.createElement('div');
         div.classList.add('content__text-container');
         //language=HTML
-        div.innerHTML = `
-            <section class="chart" id="chat">
-                <div class="chart__messages" id="messages-container"></div>
-                <span class="chart__scroll-to-bottom" id="scroll-bottom">&darr;</span>
-                <form class="chart__form" id="chart-form">
-                    <div class="chart__input-wrap">
-                        <div class="chart__input"><input placeholder="Your message" name="message" id="message-input">
-                            <div class="chart__file-upload"><input id="file-upload" name="image" type="file"></div>
-                            <div id="docs-select" class="docs-select chart__docs-select">
-                                <div id="docs-select-list" class="docs-select__list"></div>
-                                <button id="docs-select__button" class="docs-select__button" type="button">Attach file
-                                </button>
-                            </div>
-                        </div>
-                        <button class="chart__input-button" type="submit">Send</button>
-                    </div>
-                    <img src="images/photo.png"></form>
-            </section>`;
-
-        div.querySelector('#file-upload').addEventListener('change', (e) => {
-            vkService.messagesPhotoUploadServer({}).then((res) => {
-                return vkService.messagesPhotoUpload({}, res, e.target);
-            }).then((res) => {
-            });
-        });
-
-        div.querySelector('#docs-select__button').addEventListener('click', () => {
-            div.querySelector('#docs-select-list').classList.toggle('active');
-        });
-
-        new window.app.docsComponent({
-            container: div.querySelector('#docs-select-list')
-        });
+        div.innerHTML = `<section class="chart" id="chat"></section>`;
 
         return div;
     }

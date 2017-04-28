@@ -1,17 +1,51 @@
 (function () {
 
     const vkService = window.app.xhrService;
+
     /**
      * @param mountNode
      * @constructor
      */
     function MessageForm(mountNode, props) {
         this.id = props.id;
-
+        this.type = props.type;
+        this.mountNode = mountNode;
+        this.render();
     }
 
     MessageForm.prototype.render = function () {
+        let div = document.createElement('div');
+        div.innerHTML = `<form class="chart__form" id="chart-form">
+                        <div class="chart__input-wrap">
+                            <div class="chart__input"><input placeholder="Your message" name="message" id="message-input">
+                                <div class="chart__file-upload"><input id="file-upload" name="image" type="file"></div>
+                                <div id="docs-select" class="docs-select chart__docs-select">
+                                    <div id="docs-select-list" class="docs-select__list"></div>
+                                    <button id="docs-select__button" class="docs-select__button" type="button">Attach file
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="chart__input-button" type="submit">Send</button>
+                        </div>
+                        <img src="images/photo.png">
+                    </form>`;
 
+
+        div.querySelector('#file-upload').addEventListener('change', (e) => {
+            vkService.messagesPhotoUploadServer({}).then((res) => {
+                return vkService.messagesPhotoUpload({}, res, e.target);
+            });
+        });
+
+        div.querySelector('#docs-select__button').addEventListener('click', () => {
+            div.querySelector('#docs-select-list').classList.toggle('active');
+        });
+
+        new window.app.docsComponent({
+            container: div.querySelector('#docs-select-list')
+        });
+
+        this.mountNode.appendChild(div);
     };
 
     MessageForm.prototype.formSubmit = function (event) {

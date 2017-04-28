@@ -11,35 +11,14 @@
         this.activeRequest = {};
         this.messagesContainer = props.messagesContainer;
         this.id = props.id;
+        this.messages = [];
+
         this.messagesContainer.addEventListener('scroll', (e) => {
             let elem = e.target;
             if (elem.scrollTop + this.messagesContainer.clientHeight === elem.scrollHeight) {
                 // this.scrollDownButton.classList.remove('show');
             }
         });
-
-        // this.newMessage = (messages) => {
-        //     let arr = [];
-        //
-        //     messages.forEach((item) => {
-        //         let obj = {
-        //             body: item[6],
-        //             user: item[3],
-        //             out: 0
-        //         };
-        //         obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
-        //         arr.push(new window.app.model.Dialog(obj));
-        //     });
-        //     this.messages.push(arr);
-        //
-        //     if (this.messagesContainer.scrollTop + this.messagesContainer.clientHeight === this.messagesContainer.scrollHeight) {
-        //         this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
-        //         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-        //     } else {
-        //         this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), messageRender));
-        //         this.showScrollToButtom();
-        //     }
-        // };
 
         if (props.type === 'chat') {
             vkService.getChatMessages(this.activeRequest, this.id)
@@ -53,17 +32,38 @@
                 });
         }
 
-        window.app.messagesObserver.subscribe(() => {
-        });//(this.newMessage);
-        vkService.longPoll();
+        this.render();
     }
 
     ChatMessages.prototype.render = function () {
-
+        window.app.messagesObserver.subscribe(this.newMessage.bind(this));
+        vkService.longPoll();
     };
 
     ChatMessages.prototype.destroy = function () {
+        window.app.messagesObserver.subscribe(this.newMessage);
+    };
 
+    ChatMessages.prototype.newMessage = function (messages) {
+        let arr = [];
+        messages.forEach((item) => {
+            let obj = {
+                body: item[6],
+                user: item[3],
+                out: 0
+            };
+            obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
+            arr.push(new window.app.model.Dialog(obj));
+        });
+        // this.messages.push(arr);
+
+        if (this.messagesContainer.scrollTop + this.messagesContainer.clientHeight === this.messagesContainer.scrollHeight) {
+            this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
+            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        } else {
+            this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
+            this.showScrollToButtom();
+            }
     };
 
     ChatMessages.prototype.scrollMessagesToBottom = function () {
