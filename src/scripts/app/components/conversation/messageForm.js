@@ -20,10 +20,12 @@
             <form class="chart__form" id="chart-form">
                 <div class="chart__input-wrap">
                     <div class="chart__input"><input placeholder="Your message" name="message" id="message-input">
-                        <div class="chart__file-upload"><input id="file-upload" name="image" type="file"></div>
+                        <div class="chart__file-upload">
+                            <input id="file-upload" name="image" type="file">
+                        </div>
                         <div id="docs-select" class="docs-select chart__docs-select">
                             <div id="docs-select-list" class="docs-select__list"></div>
-                            <button id="docs-select__button" class="docs-select__button" type="button">Attach file
+                            <button id="docs-select__button" class="docs-select__button" type="button">Attach uploaded file
                             </button>
                         </div>
                     </div>
@@ -37,9 +39,13 @@
         });
 
         div.querySelector('#file-upload').addEventListener('change', (e) => {
-            vkService.messagesPhotoUploadServer({}).then((res) => {
-                return vkService.messagesPhotoUpload({}, res, e.target);
-            });
+            vkService.messagesPhotoUploadServer({})
+                .then((res) => {
+                    return vkService.messagesPhotoUpload({}, res, e.target);
+                })
+                .then((res) => {
+                    debugger;
+                });
         });
 
         div.querySelector('#docs-select__button').addEventListener('click', () => {
@@ -48,7 +54,7 @@
 
         new window.app.docsComponent({
             container: div.querySelector('#docs-select-list'),
-            userID : this.id
+            userID: this.id
         });
 
         this.mountNode.appendChild(div);

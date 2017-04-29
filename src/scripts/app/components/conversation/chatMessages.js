@@ -46,6 +46,7 @@
 
     ChatMessages.prototype.newMessage = function (messages) {
         let arr = [];
+
         messages.forEach((item) => {
             let obj = {
                 body: item[6],

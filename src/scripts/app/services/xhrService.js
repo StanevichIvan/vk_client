@@ -480,7 +480,6 @@
             xhr.setRequestHeader('Content-Type', 'multipart/form-data;');
             xhr.send(formData);
 
-        }).catch((err) => {
         });
     };
 
@@ -518,7 +517,6 @@
         let xhr = new XMLHttpRequest();
         xhr.open('GET', `${BASE_URL}method/messages.send?access_token=${TOKEN}&user_id=${id}&attachment=doc${doc.ownerID}_${doc.mediaID}`, true);
 
-        debugger;
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
