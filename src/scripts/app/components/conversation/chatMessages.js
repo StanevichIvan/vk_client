@@ -115,11 +115,6 @@
         if (typeof message !== 'object') {
             return div;
         }
-        // skip link messages
-        if (message.body.length === 0 && message.attach === 'undefined'){
-            div.style.display = 'none';
-            return div;
-        }
 
         div.className += "chart-message";
         if (message.out === 1) {
@@ -145,14 +140,21 @@
                         </div>`;
 
 
-        if (message.attach) {
-            console.log(message.attach);
+        if (message.attach && message.attach.type === 'doc') {
             let doc = document.createElement('div');
             doc.innerHTML = `<a target="_blank" href='${message.attach.doc.url}'>${message.attach.doc.title}</a>`;
             div.querySelector('.chart-message__text').appendChild(doc);
+            return div;
+        }
+
+        // skip link messages
+        if (message.body.length === 0 ) {
+            div.style.display = 'none';
+            return div;
         }
 
         return div;
+
     };
 
     app.chatMessagesComponent = ChatMessages;
