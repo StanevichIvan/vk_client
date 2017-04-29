@@ -47,7 +47,8 @@
         });
 
         new window.app.docsComponent({
-            container: div.querySelector('#docs-select-list')
+            container: div.querySelector('#docs-select-list'),
+            userID : this.id
         });
 
         this.mountNode.appendChild(div);

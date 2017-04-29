@@ -22,11 +22,6 @@
             this.chat = new window.app.chatComponent(document.getElementById('chat'), {id: this.userID});
         };
 
-        // this.chartUsers = new window.app.chatUsersComponent({
-        //     mount: document.getElementById('friends-search-container'),
-        //     chatSelectFunc: this.multichatSelect
-        // });
-
         this.showDialogs();
     }
 

@@ -43,7 +43,7 @@
     };
 
     DocsSelect.prototype.uploadDocument = function (doc) {
-        vkService.sendDocMessage(this.tokenCancel, doc, this.userId);
+        vkService.sendDocMessage(this.tokenCancel, doc, this.userID);
     };
 
     app.docsComponent = DocsSelect;
