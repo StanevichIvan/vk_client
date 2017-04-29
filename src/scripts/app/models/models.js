@@ -12,6 +12,16 @@
         this.body = item.body || '';
         this.out = item.out || 0;
         this.user = item.user ? new User(item.user) : null;
+
+        if (item.attachment !== 'undefined') {
+            this.attach = item.attachment || null;
+        }
+
+    }
+
+    function Attachment(item) {
+        this.title = item.doc.title || '';
+        this.url = item.doc.url || '';
     }
 
     function Chat(obj) {

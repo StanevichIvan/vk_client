@@ -63,7 +63,7 @@
         } else {
             this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
             this.showScrollToButtom();
-            }
+        }
     };
 
     ChatMessages.prototype.scrollMessagesToBottom = function () {
@@ -116,11 +116,10 @@
             return div;
         }
         // skip link messages
-        if (message.body.length === 0) {
+        if (message.body.length === 0 && message.attach === 'undefined'){
             div.style.display = 'none';
             return div;
         }
-
 
         div.className += "chart-message";
         if (message.out === 1) {
@@ -144,6 +143,14 @@
                                ${message.body}
                             </p>
                         </div>`;
+
+
+        if (message.attach) {
+            console.log(message.attach);
+            let doc = document.createElement('div');
+            doc.innerHTML = `<a target="_blank" href='${message.attach.doc.url}'>${message.attach.doc.title}</a>`;
+            div.querySelector('.chart-message__text').appendChild(doc);
+        }
 
         return div;
     };
