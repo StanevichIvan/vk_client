@@ -7,11 +7,28 @@
      * @constructor
      */
     function MessageForm(mountNode, props) {
+        this.activeRequest = {};
         this.id = props.id;
         this.type = props.type;
         this.mountNode = mountNode;
-        this.render();
+        this.senderImg = '';
+
+        this.loadAvatar();
     }
+
+    MessageForm.prototype.loadAvatar = function () {
+        let userID = window.localStorage.getItem('currentUser');
+
+        vkService.getUsersProfiles(this.activeRequest, userID)
+            .then((res) => {
+                if(!res[0])
+                    debugger;
+                this.senderImg = res[0].photo_50;
+            })
+            .then(() => {
+                this.render();
+            });
+    };
 
     MessageForm.prototype.render = function () {
         let div = document.createElement('div');
@@ -25,13 +42,14 @@
                         </div>
                         <div id="docs-select" class="docs-select chart__docs-select">
                             <div id="docs-select-list" class="docs-select__list"></div>
-                            <button id="docs-select__button" class="docs-select__button" type="button">Attach uploaded file
+                            <button id="docs-select__button" class="docs-select__button" type="button">Attach uploaded
+                                file
                             </button>
                         </div>
                     </div>
                     <button class="chart__input-button" type="submit">Send</button>
                 </div>
-                <img src="images/photo.png">
+                <img class="chart__form-avatar" src="${this.senderImg}">
             </form>`;
 
         div.querySelector('#chart-form').addEventListener('submit', (e) => {

@@ -354,6 +354,8 @@ body {
     display: flex;
     height: 37px;
     width: calc(100% - 40px); }
+  .chart__form-avatar {
+    border-radius: 50%; }
   .chart__input {
     position: relative;
     width: 100%; }
