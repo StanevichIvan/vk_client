@@ -21,8 +21,6 @@
 
         vkService.getUsersProfiles(this.activeRequest, userID)
             .then((res) => {
-                if(!res[0])
-                    debugger;
                 this.senderImg = res[0].photo_50;
             })
             .then(() => {
