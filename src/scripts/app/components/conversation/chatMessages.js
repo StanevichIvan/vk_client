@@ -12,6 +12,7 @@
         this.messagesContainer = props.messagesContainer;
         this.id = props.id;
         this.messages = [];
+        this.userID = JSON.parse(localStorage.getItem('currentUser')).id;
 
         this.messagesContainer.addEventListener('scroll', (e) => {
             let elem = e.target;
@@ -58,8 +59,8 @@
                 user: item[3],
                 out: 1,
                 from_id: item[3]
-        };
-            obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
+            };
+            obj.out = item[4] === parseInt(this.userID, 10) ? 0 : 1;
             arr.push(new window.app.model.Dialog(obj));
         });
 
@@ -67,7 +68,7 @@
 
         vkService.getUsersProfiles(this.activeRequest, ids.toString()).then((res) => {
             arr.forEach((item) => {
-                let imgObj = res.find((user)=> {
+                let imgObj = res.find((user) => {
                     return user.uid === item.fromID;
                 });
                 item.img = imgObj.photo_50;
@@ -165,7 +166,7 @@
         }
 
         // skip link messages
-        if (message.body.length === 0 ) {
+        if (message.body.length === 0) {
             div.style.display = 'none';
             return div;
         }

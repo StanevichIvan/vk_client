@@ -12,7 +12,6 @@
         this.type = props.type;
         this.mountNode = mountNode;
         this.senderImg = JSON.parse(window.localStorage.getItem('currentUser')).avatar;
-        console.log(this.senderImg);
 
         this.render();
     }
