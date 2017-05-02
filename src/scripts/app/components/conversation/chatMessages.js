@@ -47,24 +47,40 @@
     ChatMessages.prototype.newMessage = function (messages) {
         let arr = [];
 
+        // filter dialogs by chart id
+        messages.filter((item) => {
+            return item[3] === this.id;
+        });
+
         messages.forEach((item) => {
             let obj = {
                 body: item[6],
                 user: item[3],
-                out: 0
-            };
+                out: 1,
+                from_id: item[3]
+        };
             obj.out = item[3] === parseInt(this.userID, 10) ? 1 : 0;
             arr.push(new window.app.model.Dialog(obj));
         });
-        // this.messages.push(arr);
 
-        if (this.messagesContainer.scrollTop + this.messagesContainer.clientHeight === this.messagesContainer.scrollHeight) {
-            this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
-            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-        } else {
-            this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
-            this.showScrollToButtom();
-        }
+        let ids = arr.map(item => item.fromID);
+
+        vkService.getUsersProfiles(this.activeRequest, ids.toString()).then((res) => {
+            arr.forEach((item) => {
+                let imgObj = res.find((user)=> {
+                    return user.uid === item.fromID;
+                });
+                item.img = imgObj.photo_50;
+            });
+
+            if (this.messagesContainer.scrollTop + this.messagesContainer.clientHeight === this.messagesContainer.scrollHeight) {
+                this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            } else {
+                this.messagesContainer.appendChild(this.createListFragment(arr.reverse(), this.messageRender));
+                this.showScrollToButtom();
+            }
+        });
     };
 
     ChatMessages.prototype.scrollMessagesToBottom = function () {
