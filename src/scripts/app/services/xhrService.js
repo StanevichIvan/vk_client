@@ -474,7 +474,7 @@
             xhr.onerror = reject;
             let file = photo.files[0];
             let formData = new FormData();
-            formData.append("photo", file);
+            formData.append("file", file);
 
             xhr.open('POST', BASE_URL + url, true);
             xhr.setRequestHeader('Content-Type', 'multipart/form-data;');

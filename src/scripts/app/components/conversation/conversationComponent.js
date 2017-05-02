@@ -95,7 +95,7 @@
                             <div class="conversation__message-info">
                                 <h4 class="conversation__name conversation__name_right">
                                     <span class="conversation__message-count">${dialog.out}</span>
-                                    <span class="conversation__message-time">1 min</span>
+                                    <span class="conversation__message-time">${dialog.time}</span>
                                 </h4>
                                 <p class="conversation__message-text conversation__name_right"><i
                                         class="conversation__attachment"></i></p>
@@ -123,7 +123,7 @@
                             <div class="conversation__message-info">
                                 <h4 class="conversation__name conversation__name_right">
                                     <span class="conversation__message-count">${dialog.out}</span>
-                                    <span class="conversation__message-time">1 min</span>
+                                    <span class="conversation__message-time">${dialog.time}</span>
                                 </h4>
                                 <p class="conversation__message-text conversation__name_right"><i
                                         class="conversation__attachment"></i></p>

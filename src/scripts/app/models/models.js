@@ -12,11 +12,11 @@
         this.body = item.body || '';
         this.out = item.out || 0;
         this.user = item.user ? new User(item.user) : null;
+        this.time = item.date ? window.app.helpers.timeOffsetFromNow(item.date) : '';
 
-        if (item.attachment !== 'undefined') {
+        if (item.attachment) {
             this.attach = item.attachment || null;
         }
-
     }
 
     function Attachment(item) {
@@ -30,6 +30,7 @@
         this.title = obj.title || '';
         this.id = obj.chat_id;
         this.user = obj.user ? new User(obj.user) : null;
+        this.time = obj.date ? window.app.helpers.timeOffsetFromNow(obj.date) : '';
     }
 
     function Photo(obj) {
