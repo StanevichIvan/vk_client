@@ -60,6 +60,7 @@
                 out: 1,
                 from_id: item[3]
             };
+            // out or in message, vk api specification
             obj.out = item[4] === parseInt(this.userID, 10) ? 0 : 1;
             arr.push(new window.app.model.Dialog(obj));
         });

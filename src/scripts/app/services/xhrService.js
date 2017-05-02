@@ -112,6 +112,31 @@
     };
 
     /**
+     * @param tokenCancel
+     * @param mesages ids
+     * @returns {Promise}
+     */
+    const getMessageById = function (tokenCancel, ids) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `${BASE_URL}method/messages.getById?access_token=${TOKEN}&message_ids=${ids}`);
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                resolve(json);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        });
+    };
+
+
+    /**
      * Get messages from user
      * @returns {*}
      */
@@ -607,6 +632,7 @@
         messagesPhotoUpload: messagesPhotoUpload,
         getDocs: getDocs,
         sendDocMessage: sendDocMessage,
-        sendChatMessage: sendChatMessage
+        sendChatMessage: sendChatMessage,
+        getMessageById: getMessageById
     };
 })();
