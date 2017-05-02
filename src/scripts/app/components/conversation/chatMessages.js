@@ -119,12 +119,12 @@
 
         div.className += "chart-message";
         if (message.out === 1) {
-            div.className += " mine";
+            div.classList.add('mine');
         }
 
         div.innerHTML = `<div class="chart-message__avatar">
                             <div class="chart-message__avatar-content active">
-                                <img src="images/photo.png">
+                                <img src="${message.img}">
                                 <div class="chart-message__controls">
                                     <span class="chart-message__control chart-message__control_star"></span>
                                     <span class="chart-message__control chart-message__control_share"></span>

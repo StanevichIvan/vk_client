@@ -110,6 +110,107 @@
         return diaolgsBundle;
     };
 
+    /**
+     * Get messages from user
+     * @returns {*}
+     */
+    const getMessages = function (tokenCancel, uid) {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&count=200&time_offset=0&user_id=${uid}`);
+
+        let messages;
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                messages = json.map(item => new Dialog(item));
+                resolve(messages);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+
+        }).then((res) => {
+            // get images by id
+            let listIds = [];
+            res.forEach((item) => {
+                if (!(listIds.includes(item.fromID)) && item.fromID !== '') {
+                    listIds.push(item.fromID);
+                }
+            });
+
+            return getUsersProfiles({}, listIds.toString());
+        }).then((res) => {
+            // create dictionary for {id, src}[]
+            let avatarDictionary = {};
+            res.forEach((item) => {
+                avatarDictionary[item.uid] = item.photo_50;
+            });
+
+            // modify messages
+            messages.forEach((item) => {
+                item.img = avatarDictionary[item.fromID];
+            });
+
+            return messages;
+        });
+    };
+
+    /**
+     * Get chat messages
+     * @returns {*}
+     */
+    const getChatMessages = function (tokenCancel, id) {
+
+        let xhr = new XMLHttpRequest();
+        const chatID = +2000000000 + +id;
+        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&peer_id=${chatID}&count=200&v=5.38`);
+
+        let messages;
+
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                let json = JSON.parse(xhr.responseText).response;
+                messages = json.items.map(item => new Dialog(item));
+                resolve(messages);
+            };
+
+            tokenCancel.cancel = function () {
+                xhr.abort();
+                reject(new Error("Cancelled"));
+            };
+            xhr.onerror = reject;
+            xhr.send();
+        }).then((res) => {
+            // get images by id
+            let listIds = [];
+            res.forEach((item) => {
+                if (!(listIds.includes(item.fromID)) && item.fromID !== '') {
+                    listIds.push(item.fromID);
+                }
+            });
+
+            return getUsersProfiles({}, listIds.toString());
+        }).then((res) => {
+            // create dictionary for {id, src}[]
+            let avatarDictionary = {};
+            res.forEach((item) => {
+                avatarDictionary[item.uid] = item.photo_50;
+            });
+
+            // modify messages
+            messages.forEach((item) => {
+                item.img = avatarDictionary[item.fromID];
+            });
+
+            return messages;
+        });
+    };
 
     /**
      * Loads data users profiles
@@ -125,54 +226,6 @@
             xhr.onload = function () {
                 let json = JSON.parse(xhr.responseText).response;
                 resolve(json);
-            };
-
-            tokenCancel.cancel = function () {
-                xhr.abort();
-                reject(new Error("Cancelled"));
-            };
-            xhr.onerror = reject;
-            xhr.send();
-        });
-    };
-
-    /**
-     * Get messages from user
-     * @returns {*}
-     */
-    const getMessages = function (tokenCancel, uid) {
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&count=200&time_offset=0&user_id=${uid}`);
-
-        return new Promise(function (resolve, reject) {
-            xhr.onload = function () {
-                let json = JSON.parse(xhr.responseText).response;
-                resolve(json.map(item => new Dialog(item)));
-            };
-
-            tokenCancel.cancel = function () {
-                xhr.abort();
-                reject(new Error("Cancelled"));
-            };
-            xhr.onerror = reject;
-            xhr.send();
-        });
-    };
-    /**
-     * Get chat messages
-     * @returns {*}
-     */
-    const getChatMessages = function (tokenCancel, id) {
-
-        let xhr = new XMLHttpRequest();
-        const chatID = +2000000000 + +id;
-        xhr.open("GET", `${BASE_URL}method/messages.getHistory?access_token=${TOKEN}&peer_id=${chatID}&count=200&v=5.38`);
-
-        return new Promise(function (resolve, reject) {
-            xhr.onload = function () {
-                let json = JSON.parse(xhr.responseText).response;
-                resolve(json.items.map(item => new Dialog(item)));
             };
 
             tokenCancel.cancel = function () {
