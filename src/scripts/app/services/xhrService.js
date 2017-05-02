@@ -3,7 +3,7 @@
     const TOKEN = '';
     const BASE_URL = 'http://localhost:5000/';
     const userId = '145772800';
-    window.localStorage.setItem('currentUser',  userId);
+    window.localStorage.setItem('currentUser',  JSON.stringify({id : userId}));
 
     let longPollCredentials = {
         server: '',

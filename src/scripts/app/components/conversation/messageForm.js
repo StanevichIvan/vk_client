@@ -11,22 +11,11 @@
         this.id = props.id;
         this.type = props.type;
         this.mountNode = mountNode;
-        this.senderImg = '';
+        this.senderImg = JSON.parse(window.localStorage.getItem('currentUser')).avatar;
+        console.log(this.senderImg);
 
-        this.loadAvatar();
+        this.render();
     }
-
-    MessageForm.prototype.loadAvatar = function () {
-        let userID = window.localStorage.getItem('currentUser');
-
-        vkService.getUsersProfiles(this.activeRequest, userID)
-            .then((res) => {
-                this.senderImg = res[0].photo_50;
-            })
-            .then(() => {
-                this.render();
-            });
-    };
 
     MessageForm.prototype.render = function () {
         let div = document.createElement('div');
