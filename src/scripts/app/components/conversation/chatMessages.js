@@ -142,7 +142,7 @@
 
         div.innerHTML = `<div class="chart-message__avatar">
                             <div class="chart-message__avatar-content active">
-                                <img src="${message.img}">
+                                <img src="${message.img}"/>
                                 <div class="chart-message__controls">
                                     <span class="chart-message__control chart-message__control_star"></span>
                                     <span class="chart-message__control chart-message__control_share"></span>
