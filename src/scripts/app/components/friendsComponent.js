@@ -3,6 +3,7 @@
     const vkService = window.app.xhrService;
 
     function FriendsComponent() {
+
         this.activeRequest = {};
 
         this.wrap = document.getElementById('router-outlet');

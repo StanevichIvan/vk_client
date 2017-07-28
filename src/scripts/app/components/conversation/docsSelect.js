@@ -1,4 +1,5 @@
 (function () {
+
     const vkService = window.app.xhrService;
 
     function DocsSelect(props) {

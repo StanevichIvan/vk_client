@@ -4,6 +4,7 @@
     const chatUsersComponent = window.app.chatUsersComponent;
 
     function NewsComponent(obj) {
+
         this.activeRequest = {};
         this.mountNode = document.getElementById('router-outlet');
 
@@ -93,6 +94,7 @@
     }
 
     function createWallPhotos(obj) {
+
         let div = document.createElement('div');
 
         obj.photos.forEach((item) => {

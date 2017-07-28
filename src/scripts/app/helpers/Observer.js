@@ -1,6 +1,7 @@
 (function() {
+
     function Observer() {
-        this.handlers = [];  // observers
+        this.handlers = [];
     }
 
     Observer.prototype.subscribe = function (fn) {

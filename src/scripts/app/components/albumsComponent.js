@@ -17,7 +17,6 @@
                     this.albums = res;
                     this.render();
                 }).catch((err) => {
-                // console.log(err);
             });
         };
 
